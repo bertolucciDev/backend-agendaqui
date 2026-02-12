@@ -3,7 +3,7 @@ import { DatabaseHealthRepository } from '../../domain/repositories/database-hea
 import { ResponseHealthDTO } from '../../presentation/dto/output/response-health.dto';
 
 @Injectable()
-export class DatabaseHealthUseCase {
+export class CheckHealthUseCase {
   constructor(private readonly databaseHealthRepo: DatabaseHealthRepository) {}
 
   async execute(): Promise<ResponseHealthDTO> {

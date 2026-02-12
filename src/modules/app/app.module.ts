@@ -1,8 +1,19 @@
 import { Module } from '@nestjs/common';
+import { SharedModule } from '@/shared/shared.module';
+import { CheckHealthUseCase } from './application/use-cases/check-health.use-case';
+import { CheckApiHealthController } from './presentation/controller/check-api-health.controller';
+import { PrismaHealthRepository } from './infra/database/prisma-health.provider';
+import { DatabaseHealthRepository } from './domain/repositories/database-health.repository';
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [],
+  imports: [SharedModule],
+  controllers: [CheckApiHealthController],
+  providers: [
+    CheckHealthUseCase,
+    {
+      provide: DatabaseHealthRepository,
+      useClass: PrismaHealthRepository,
+    },
+  ],
 })
 export class AppModule {}
