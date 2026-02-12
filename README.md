@@ -1,98 +1,150 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📅 Agendaqui API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Bem-vindo ao projeto **Back-Agendamento**! 🚀
+Este é um backend robusto e performático desenvolvido com as melhores práticas e ferramentas do ecossistema Node.js.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 💻 Tecnologias Utilizadas
 
-## Description
+Este projeto foi construído com uma stack moderna para garantir escalabilidade, segurança e alta performance. Abaixo você encontra a lista de tecnologias, links para suas documentações oficiais e uma breve descrição:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **[NestJS](https://nestjs.com/)** 🦁: Framework Node.js progressivo para construir aplicações server-side eficientes e escaláveis.
+- **[Node.js 20 LTS](https://nodejs.org/)** 🟢: Ambiente de execução JavaScript (Runtime) estável e moderno.
+- **[Fastify](https://fastify.dev/)** ⚡: Framework web focado em performance e baixo overhead, utilizado como adaptador HTTP no NestJS (substituindo o Express).
+- **[Docker](https://www.docker.com/)** 🐳 + **[PostgreSQL 16 Alpine](https://www.postgresql.org/)** 🐘: Banco de dados relacional rodando em container, utilizando a versão Alpine (leve) do Postgres 16.
+- **[Prisma ORM v7](https://www.prisma.io/)** 🔺: ORM (Object-Relational Mapping) de nova geração para Node.js e TypeScript, facilitando o acesso ao banco de dados.
+- **[Zod](https://zod.dev/)** 💎: Biblioteca de validação de esquemas TypeScript-first, utilizada para garantir a integridade das variáveis de ambiente.
+- **[Class Validator](https://github.com/typestack/class-validator) & [Class Transformer](https://github.com/typestack/class-transformer)** 🛠️: Utilizados para validação de dados de entrada (DTOs) e serialização/transformação de respostas.
+- **[Swagger](https://swagger.io/)** 📃: Ferramenta para documentar e testar a API de forma interativa (OpenAPI).
 
-## Project setup
+---
 
-```bash
-$ pnpm install
-```
+## ⚙️ Pré-requisitos
 
-## Compile and run the project
+Antes de começar, você precisará ter instalado em sua máquina:
 
-```bash
-# development
-$ pnpm run start
+- [Node.js 20 LTS](https://nodejs.org/)
+- [pnpm](https://pnpm.io/) (Gerenciador de pacotes utilizado no projeto)
+- [Docker](https://www.docker.com/) e Docker Compose
 
-# watch mode
-$ pnpm run start:dev
+---
 
-# production mode
-$ pnpm run start:prod
-```
+## 🚀 Como Rodar o Projeto
 
-## Run tests
+Siga os passos abaixo para configurar e executar a aplicação localmente.
+
+### 1. Instalação
+
+Clone o repositório e instale as dependências utilizando o `pnpm`:
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+pnpm install
 ```
 
-## Deployment
+### 2. Configuração de Ambiente (.env)
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Crie um arquivo `.env` na raiz do projeto. Você pode usar o exemplo abaixo, ajustando conforme necessário (baseado no `env.validation.ts`):
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+APP_NAME=Back-Agendamento
+APP_ENV=dev
+APP_PORT=3000
+APP_URL=http://localhost:3000
+
+# Conexão com o Banco de Dados (Docker)
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/app_db?schema=public"
+```
+
+### 3. Subindo o Banco de Dados
+
+Utilize o Docker Compose para iniciar o container do PostgreSQL:
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+docker-compose up -d
+```
+*Isso iniciará o banco de dados `postgres:16-alpine` na porta 5432.*
+
+### 4. Configurando o Prisma
+
+Gere o cliente do Prisma e execute as migrações para criar as tabelas no banco:
+
+```bash
+# Gera os tipos do Prisma Client
+pnpm prisma generate
+
+# Aplica as migrações no banco de dados (modo dev)
+pnpm prisma migrate dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Executando a Aplicação
 
-## Resources
+Agora você pode iniciar o servidor:
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+# Modo de desenvolvimento (com hot-reload)
+pnpm start:dev
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Modo de produção
+pnpm start:prod
+```
 
-## Support
+A API estará rodando em: `http://localhost:3000` 🚀
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## 📚 Documentação (Swagger)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Para visualizar e testar os endpoints da API, acesse a documentação gerada automaticamente pelo Swagger:
 
-## License
+👉 **http://localhost:3000/docs**
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 💡 Exemplos de Uso no Código
+
+Aqui estão alguns exemplos reais de como as tecnologias foram implementadas neste projeto:
+
+### 💎 Validação de Ambiente com Zod
+
+Usamos o `Zod` para validar se as variáveis de ambiente estão corretas antes da aplicação subir. Se faltar algo, o app nem inicia!
+
+```typescript
+import { z } from 'zod';
+
+export const envSchema = z.object({
+  APP_PORT: z.coerce.number().default(3000), // Força conversão para número
+  DATABASE_URL: z.string(), // Garante que é uma string
+  APP_ENV: z.enum(['dev', 'prod', 'test']).default('dev'),
+});
+```
+
+### 🛠️ DTOs com Class Transformer e Swagger
+
+Os DTOs controlam o que entra e sai da API. O `@Expose` define o que é enviado no JSON de resposta (serialização), e o `@ApiProperty` gera a documentação no Swagger.
+
+```typescript
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+
+export class ResponseHealthDTO {
+  @Expose()
+  @ApiProperty({ example: 'healthy', description: 'Status do banco de dados' })
+  database!: string;
+
+  @Expose()
+  @ApiProperty({ example: '2025-09-21T12:00:00.000Z', description: 'Timestamp da verificação' })
+  timestamp!: string;
+}
+```
+
+### ⚡ Performance com Fastify
+
+No `main.ts`, configuramos o NestJS para usar o `FastifyAdapter`, garantindo maior throughput de requisições em comparação ao Express padrão.
+
+```typescript
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+
+const app = await NestFactory.create<NestFastifyApplication>(
+  AppModule,
+  new FastifyAdapter(), // 🚀 Fastify engine ativado
+);
+```
