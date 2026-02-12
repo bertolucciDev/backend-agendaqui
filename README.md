@@ -1,6 +1,6 @@
 # 📅 Agendaqui API
 
-Bem-vindo ao projeto **Back-Agendamento**! 🚀
+Bem-vindo ao projeto **Agendaqui**! 🚀
 Este é um backend robusto e performático desenvolvido com as melhores práticas e ferramentas do ecossistema Node.js.
 
 ## 💻 Tecnologias Utilizadas
