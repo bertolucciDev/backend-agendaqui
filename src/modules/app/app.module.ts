@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SharedModule } from '@/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { CheckHealthUseCase } from './application/use-cases/check-health.use-case';
 import { CheckApiHealthController } from './presentation/controller/check-api-health.controller';
 import { PrismaHealthRepository } from './infra/database/prisma-health.provider';
