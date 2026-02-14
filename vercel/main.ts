@@ -12,6 +12,12 @@ async function bootstrap() {
 
     const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
 
+    app.enableCors({
+      origin: ['http://localhost:5173', 'https://agendaqui-web.vercel.app'],
+      credentials: true,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    });
+
     const config = new DocumentBuilder()
       .setTitle(process.env.APP_NAME!)
       .setDescription('API Documentation')
