@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseHealthRepository } from '../../domain/repositories/database-health.repository';
-import { PrismaService } from '@/shared/infra/database/prisma/prisma.service';
+import { PrismaService } from '../../../../shared/infra/database/prisma/prisma.service';
 
 @Injectable()
 export class PrismaHealthRepository implements DatabaseHealthRepository {
