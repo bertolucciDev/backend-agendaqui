@@ -1,10 +1,12 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { AppModule } from './modules/app/app.module';
 import { env } from './config/env';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -12,6 +14,41 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
+
+  const config = new DocumentBuilder()
+    .setTitle(env.APP_NAME)
+    .setDescription('API Documentation')
+    .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'access-token',
+    )
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('docs', app, documentFactory);
+
   await app.listen(env.APP_PORT);
+
+  if (env.APP_ENV === 'dev') {
+    console.log('------------------------------------');
+    console.log(`API running on port ${env.APP_PORT}.`);
+    console.log(`API: ${env.APP_URL}`);
+    console.log(`Docs: ${env.APP_URL}/docs`);
+    console.log('------------------------------------');
+  }
 }
 void bootstrap();

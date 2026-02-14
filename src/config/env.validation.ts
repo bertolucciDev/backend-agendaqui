@@ -13,7 +13,7 @@ export const envSchema = z.object({
   // DATABASE_HOST: z.string(),
   // DATABASE_PORT: z.coerce.number(),
   // DATABASE_NAME: z.string(),
-  // DATABASE_URL: z.string(),
+  DATABASE_URL: z.string(),
 
   // // Cache
   // CACHE_HOST: z.string(),

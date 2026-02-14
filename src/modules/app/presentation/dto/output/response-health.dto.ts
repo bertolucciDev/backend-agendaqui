@@ -8,18 +8,18 @@ export class ResponseHealthDTO {
     example: 'healthy',
     description: 'Overall application health status',
   })
-  status: HealthStatus;
+  status!: HealthStatus;
 
   @Expose()
   @ApiProperty({ example: 'healthy', description: 'Database health status' })
-  database: HealthStatus;
+  database!: HealthStatus;
 
   @Expose()
   @ApiProperty({
     example: '2025-09-21T12:00:00.000Z',
     description: 'Timestamp of the health check',
   })
-  timestamp: string;
+  timestamp!: string;
 
   constructor(props: Partial<ResponseHealthDTO>) {
     Object.assign(this, props);
