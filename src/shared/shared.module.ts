@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { DatabaseModule } from './infra/database/database.module';
 
+@Global()
 @Module({
   imports: [DatabaseModule],
   exports: [DatabaseModule],

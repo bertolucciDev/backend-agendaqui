@@ -21,7 +21,14 @@ exports.TransactionIsolationLevel = runtime.makeStrictEnum({
     Serializable: 'Serializable'
 });
 exports.UserScalarFieldEnum = {
-    id: 'id'
+    id: 'id',
+    name: 'name',
+    email: 'email',
+    password: 'password',
+    role: 'role',
+    isVerified: 'isVerified',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 exports.SortOrder = {
     asc: 'asc',
