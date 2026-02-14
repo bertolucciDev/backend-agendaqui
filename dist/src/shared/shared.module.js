@@ -13,6 +13,7 @@ let SharedModule = class SharedModule {
 };
 exports.SharedModule = SharedModule;
 exports.SharedModule = SharedModule = __decorate([
+    (0, common_1.Global)(),
     (0, common_1.Module)({
         imports: [database_module_1.DatabaseModule],
         exports: [database_module_1.DatabaseModule],

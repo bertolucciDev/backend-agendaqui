@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -9,6 +9,17 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  role       Role     @default(USER)
+  isVerified Boolean  @default(false)
+  createdAt  DateTime
+  updatedAt  DateTime @updatedAt
 }
 
+enum Role {
+  USER
+  ADMIN
+}
