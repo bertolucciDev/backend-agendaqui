@@ -14,4 +14,4 @@ async function bootstrap() {
 
 void bootstrap();
 
-export const handler = serverless(server);
+export default serverless(server);
