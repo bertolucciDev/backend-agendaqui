@@ -30,8 +30,6 @@ export class SignInAuthController {
   async signIn(@Body() dto: LoginDTO): Promise<SignResponseDTO> {
     const user = await this.signInUseCase.execute(dto);
 
-    const session = await this.createUserSession.execute(user);
-
-    return session;
+    return this.createUserSession.execute(user);
   }
 }

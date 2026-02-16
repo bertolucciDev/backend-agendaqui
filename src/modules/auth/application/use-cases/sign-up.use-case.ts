@@ -18,7 +18,7 @@ import { Role } from '../../../../shared/types/role.type';
 import { VerificationType } from '../../../../shared/types/verification-type.type';
 
 @Injectable()
-export class CreateAccountUseCase {
+export class SignUpUseCase {
   constructor(
     @Inject('IEmailService') private readonly emailService: IEmailService,
     private readonly userWriteRepository: AbstractUserWriteRepository,

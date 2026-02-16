@@ -18,10 +18,10 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '@/modules/auth/infra/guards/jwt.guard';
-import { JwtUser } from '@/modules/auth/domain/repositories/jwt.repository';
-import { RolesGuard } from '@/modules/auth/infra/guards/roles.guard';
-import { Roles } from '@/modules/auth/infra/decorators/roles.decorator';
+import { JwtAuthGuard } from '../../../../modules/auth/infra/guards/jwt.guard';
+import { JwtUser } from '../../../../modules/auth/domain/repositories/jwt.repository';
+import { RolesGuard } from '../../../../modules/auth/infra/guards/roles.guard';
+import { Roles } from '../../../../modules/auth/infra/decorators/roles.decorator';
 import { Role } from '../../../../shared/types/role.type';
 import { DeleteUserInput } from '../../application/use-cases/implements/delete-user.input';
 import { UpdateUserInput } from '../../application/use-cases/implements/update-user.input';
