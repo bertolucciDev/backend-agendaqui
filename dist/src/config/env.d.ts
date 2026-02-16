@@ -9,4 +9,12 @@ export declare const env: {
     CACHE_DB: number;
     CACHE_TTL: number;
     CACHE_URL: string;
+    JWT_SECRET: string;
+    ACCESS_TOKEN_EXP: string;
+    REFRESH_TOKEN_EXP: string;
+    EMAIL_HOST: string;
+    EMAIL_PORT: number;
+    EMAIL_USER: string;
+    EMAIL_PASSWORD: string;
+    EMAIL_FAKE: boolean;
 };

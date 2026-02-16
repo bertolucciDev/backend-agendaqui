@@ -14,4 +14,12 @@ export declare const envSchema: z.ZodObject<{
     CACHE_DB: z.ZodDefault<z.ZodCoercedNumber<unknown>>;
     CACHE_TTL: z.ZodCoercedNumber<unknown>;
     CACHE_URL: z.ZodString;
+    JWT_SECRET: z.ZodDefault<z.ZodString>;
+    ACCESS_TOKEN_EXP: z.ZodDefault<z.ZodString>;
+    REFRESH_TOKEN_EXP: z.ZodDefault<z.ZodString>;
+    EMAIL_HOST: z.ZodDefault<z.ZodString>;
+    EMAIL_PORT: z.ZodDefault<z.ZodCoercedNumber<unknown>>;
+    EMAIL_USER: z.ZodString;
+    EMAIL_PASSWORD: z.ZodString;
+    EMAIL_FAKE: z.ZodDefault<z.ZodCoercedBoolean<unknown>>;
 }, z.core.$strip>;

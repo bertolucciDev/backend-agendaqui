@@ -9,17 +9,40 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  password   String
-  role       Role     @default(USER)
-  isVerified Boolean  @default(false)
-  createdAt  DateTime
-  updatedAt  DateTime @updatedAt
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  role          Role           @default(USER)
+  isVerified    Boolean        @default(false)
+  createdAt     DateTime
+  updatedAt     DateTime       @updatedAt
+  verifications Verification[]
+}
+
+model Verification {
+  id        String           @id @default(uuid())
+  userId    String
+  token     String           @unique
+  code      String           @unique
+  type      VerificationType
+  expiresAt DateTime
+  isUsed    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  usedAt    DateTime?
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@index([code])
 }
 
 enum Role {
-  USER
-  ADMIN
+  USER  @map("user")
+  ADMIN @map("admin")
+}
+
+enum VerificationType {
+  RESET_PASSWORD @map("reset_password")
+  VERIFY_EMAIL   @map("verify_email")
 }
