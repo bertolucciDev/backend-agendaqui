@@ -61,15 +61,6 @@ CACHE_DB=0
 CACHE_TTL=3600
 ```
 
-### 3. Subindo o Banco de Dados
-
-Utilize o Docker Compose para iniciar o container do PostgreSQL:
-
-```bash
-docker-compose up -d
-```
-*Isso iniciará o banco de dados `postgres:16-alpine` na porta 5432.*
-
 ### 4. Configurando o Prisma
 
 Gere o cliente do Prisma e execute as migrações para criar as tabelas no banco:
