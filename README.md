@@ -10,7 +10,7 @@ Este projeto foi construído com uma stack moderna para garantir escalabilidade,
 - **[NestJS](https://nestjs.com/)** 🦁: Framework Node.js progressivo para construir aplicações server-side eficientes e escaláveis.
 - **[Node.js 20 LTS](https://nodejs.org/)** 🟢: Ambiente de execução JavaScript (Runtime) estável e moderno.
 - **[Fastify](https://fastify.dev/)** ⚡: Framework web focado em performance e baixo overhead, utilizado como adaptador HTTP no NestJS (substituindo o Express).
-- **[Docker](https://www.docker.com/)** 🐳 + **[PostgreSQL 16 Alpine](https://www.postgresql.org/)** 🐘: Banco de dados relacional rodando em container, utilizando a versão Alpine (leve) do Postgres 16.
+- **[PostgreSQL 16 Alpine](https://www.postgresql.org/)** 🐘: Banco de dados relacional rodando em container, utilizando a versão Alpine (leve) do Postgres 16.
 - **[Prisma ORM v7](https://www.prisma.io/)** 🔺: ORM (Object-Relational Mapping) de nova geração para Node.js e TypeScript, facilitando o acesso ao banco de dados.
 - **[Zod](https://zod.dev/)** 💎: Biblioteca de validação de esquemas TypeScript-first, utilizada para garantir a integridade das variáveis de ambiente.
 - **[Class Validator](https://github.com/typestack/class-validator) & [Class Transformer](https://github.com/typestack/class-transformer)** 🛠️: Utilizados para validação de dados de entrada (DTOs) e serialização/transformação de respostas.
