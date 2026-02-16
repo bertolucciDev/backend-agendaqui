@@ -20,7 +20,7 @@ import { LogoutUserUseCase } from './application/use-cases/logout-user.handler';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
 import { CreateUserSessionUseCase } from './application/use-cases/create-user-session.handler';
 import { VerifyRecoveryUseCase } from './application/use-cases/verify-recovery.handler';
-import { CreateAccountUseCase } from './application/use-cases/create-account.handler';
+import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
 import { ResetPasswordUseCase } from './application/use-cases/reset-password.handler';
 import { VerifyEmailUseCase } from './application/use-cases/verify-email.handler';
 
@@ -28,14 +28,14 @@ import { JwtStrategy } from '../../modules/auth/infra/strategies/jwt-strategy';
 import { parseTimeToSeconds } from '../../shared/utils/time.util';
 
 import { SignInAuthController } from './presentation/controllers/sign-in-auth.controller';
+import { SignUpAuthController } from './presentation/controllers/sign-up-auth.controller';
 // import { VerifyEmailAuthController } from './presentation/controllers/verify-email-auth.controller';
-// import { RegisterAuthController } from './presentation/controllers/register-auth.controller';
 // import { LogoutAuthController } from './presentation/controllers/logout-auth.controller';
 // import { RequestPasswordResetAuthController } from './presentation/controllers/request-password-reset-auth.controller';
 // import { VerifyResetPasswordAuthController } from './presentation/controllers/reset-password-auth.controller';
 
 const WriteUseCases = [
-  CreateAccountUseCase,
+  SignUpUseCase,
   CreateUserSessionUseCase,
   LogoutUserUseCase,
   RequestPasswordResetUseCase,
@@ -57,7 +57,7 @@ const ReadUseCases = [SignInUseCase];
   ],
   controllers: [
     SignInAuthController,
-    // RegisterAuthController,
+    SignUpAuthController,
     // VerifyEmailAuthController,
     // RequestPasswordResetAuthController,
     // VerifyResetPasswordAuthController,
