@@ -28,11 +28,30 @@ __decorate([
     (0, common_1.Get)(),
     (0, swagger_1.ApiOperation)({
         summary: 'Check application health',
-        description: 'Returns the health status of the app and its dependencies (API, Database...).',
+        description: 'Returns the health status of the app and its dependencies (API, Database, Cache).',
     }),
     (0, swagger_1.ApiOkResponse)({
         description: 'Application and dependencies are healthy',
         type: response_health_dto_1.ResponseHealthDTO,
+    }),
+    (0, swagger_1.ApiServiceUnavailableResponse)({
+        description: 'Degraded mode: cache dependencies are down',
+        content: {
+            'application/json': {
+                schema: { $ref: (0, swagger_1.getSchemaPath)(response_health_dto_1.ResponseHealthDTO) },
+                example: {
+                    cacheDown: {
+                        summary: 'Cache offline',
+                        value: {
+                            status: 'unhealthy',
+                            cache: 'unhealthy',
+                            database: 'healthy',
+                            timestamp: '2025-09-21T12:00:00.000Z',
+                        },
+                    },
+                },
+            },
+        },
     }),
     (0, swagger_1.ApiInternalServerErrorResponse)({
         description: 'Critical failure: database is down or all dependencies are down',
@@ -44,6 +63,16 @@ __decorate([
                         summary: 'Database offline (API unavailable)',
                         value: {
                             status: 'unhealthy',
+                            cache: 'healthy',
+                            database: 'unhealthy',
+                            timestamp: '2025-09-21T12:00:00.000Z',
+                        },
+                    },
+                    allDown: {
+                        summary: 'All dependencies offline',
+                        value: {
+                            status: 'unhealthy',
+                            cache: 'unhealthy',
                             database: 'unhealthy',
                             timestamp: '2025-09-21T12:00:00.000Z',
                         },

@@ -11,6 +11,10 @@ export class ResponseHealthDTO {
   status!: HealthStatus;
 
   @Expose()
+  @ApiProperty({ example: 'healthy', description: 'Cache health status' })
+  cache!: HealthStatus;
+
+  @Expose()
   @ApiProperty({ example: 'healthy', description: 'Database health status' })
   database!: HealthStatus;
 

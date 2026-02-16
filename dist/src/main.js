@@ -8,6 +8,11 @@ const app_module_1 = require("./modules/app/app.module");
 const env_1 = require("./config/env");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_fastify_1.FastifyAdapter());
+    app.enableCors({
+        origin: ['http://localhost:5173', 'https://agendaqui-web.vercel.app'],
+        credentials: true,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    });
     app.useGlobalInterceptors(new common_1.ClassSerializerInterceptor(app.get(core_1.Reflector)));
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,

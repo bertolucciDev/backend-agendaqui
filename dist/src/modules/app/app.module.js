@@ -11,18 +11,27 @@ const common_1 = require("@nestjs/common");
 const shared_module_1 = require("../../shared/shared.module");
 const check_health_use_case_1 = require("./application/use-cases/check-health.use-case");
 const check_api_health_controller_1 = require("./presentation/controller/check-api-health.controller");
-const prisma_health_provider_1 = require("./infra/database/prisma-health.provider");
+const prisma_health_provider_1 = require("./infra/repositories/prisma-health.provider");
 const database_health_repository_1 = require("./domain/repositories/database-health.repository");
 const user_module_1 = require("../user/user.module");
+const cache_health_repository_1 = require("./domain/repositories/cache-health.repository");
+const redis_health_provider_1 = require("./infra/repositories/redis-health.provider");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [shared_module_1.SharedModule, user_module_1.UserModule],
+        imports: [
+            shared_module_1.SharedModule,
+            user_module_1.UserModule,
+        ],
         controllers: [check_api_health_controller_1.CheckApiHealthController],
         providers: [
             check_health_use_case_1.CheckHealthUseCase,
+            {
+                provide: cache_health_repository_1.CacheHealthRepository,
+                useClass: redis_health_provider_1.RedisHealthRepository,
+            },
             {
                 provide: database_health_repository_1.DatabaseHealthRepository,
                 useClass: prisma_health_provider_1.PrismaHealthRepository,
