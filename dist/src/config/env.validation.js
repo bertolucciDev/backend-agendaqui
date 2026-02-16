@@ -8,5 +8,10 @@ exports.envSchema = zod_1.z.object({
     APP_PORT: zod_1.z.coerce.number().default(3000),
     APP_URL: zod_1.z.string().default('http://localhost:3000'),
     DATABASE_URL: zod_1.z.string(),
+    CACHE_HOST: zod_1.z.string(),
+    CACHE_PORT: zod_1.z.coerce.number(),
+    CACHE_DB: zod_1.z.coerce.number().default(0),
+    CACHE_TTL: zod_1.z.coerce.number(),
+    CACHE_URL: zod_1.z.string(),
 });
 //# sourceMappingURL=env.validation.js.map

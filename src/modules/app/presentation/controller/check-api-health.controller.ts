@@ -6,6 +6,7 @@ import {
   ApiInternalServerErrorResponse,
   getSchemaPath,
   ApiExtraModels,
+  ApiServiceUnavailableResponse,
 } from '@nestjs/swagger';
 import { CheckHealthUseCase } from '../../application/use-cases/check-health.use-case';
 import { ResponseHealthDTO } from '../dto/output/response-health.dto';
@@ -20,11 +21,30 @@ export class CheckApiHealthController {
   @ApiOperation({
     summary: 'Check application health',
     description:
-      'Returns the health status of the app and its dependencies (API, Database...).',
+      'Returns the health status of the app and its dependencies (API, Database, Cache).',
   })
   @ApiOkResponse({
     description: 'Application and dependencies are healthy',
     type: ResponseHealthDTO,
+  })
+  @ApiServiceUnavailableResponse({
+    description: 'Degraded mode: cache dependencies are down',
+    content: {
+      'application/json': {
+        schema: { $ref: getSchemaPath(ResponseHealthDTO) },
+        example: {
+          cacheDown: {
+            summary: 'Cache offline',
+            value: {
+              status: 'unhealthy',
+              cache: 'unhealthy',
+              database: 'healthy',
+              timestamp: '2025-09-21T12:00:00.000Z',
+            },
+          },
+        },
+      },
+    },
   })
   @ApiInternalServerErrorResponse({
     description:
@@ -37,6 +57,16 @@ export class CheckApiHealthController {
             summary: 'Database offline (API unavailable)',
             value: {
               status: 'unhealthy',
+              cache: 'healthy',
+              database: 'unhealthy',
+              timestamp: '2025-09-21T12:00:00.000Z',
+            },
+          },
+          allDown: {
+            summary: 'All dependencies offline',
+            value: {
+              status: 'unhealthy',
+              cache: 'unhealthy',
               database: 'unhealthy',
               timestamp: '2025-09-21T12:00:00.000Z',
             },

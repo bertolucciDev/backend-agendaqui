@@ -14,6 +14,7 @@ const swagger_1 = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 class ResponseHealthDTO {
     status;
+    cache;
     database;
     timestamp;
     constructor(props) {
@@ -29,6 +30,11 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], ResponseHealthDTO.prototype, "status", void 0);
+__decorate([
+    (0, class_transformer_1.Expose)(),
+    (0, swagger_1.ApiProperty)({ example: 'healthy', description: 'Cache health status' }),
+    __metadata("design:type", String)
+], ResponseHealthDTO.prototype, "cache", void 0);
 __decorate([
     (0, class_transformer_1.Expose)(),
     (0, swagger_1.ApiProperty)({ example: 'healthy', description: 'Database health status' }),
