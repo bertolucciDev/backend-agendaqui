@@ -45,13 +45,20 @@ pnpm install
 Crie um arquivo `.env` na raiz do projeto. Você pode usar o exemplo abaixo, ajustando conforme necessário (baseado no `env.validation.ts`):
 
 ```env
-APP_NAME=Back-Agendamento
-APP_ENV=dev
-APP_PORT=3000
-APP_URL=http://localhost:3000
+APP_NAME="Agendaqui"
+APP_ENV="dev"
+APP_PORT="3000"
+APP_URL="http://localhost:3000/"
 
-# Conexão com o Banco de Dados (Docker)
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/app_db?schema=public"
+#DATABASE
+DATABASE_URL="postgresql://neondb_owner:npg_Y2atOj5Kfvgp@ep-blue-darkness-ac4pkr8r-pooler.sa-east-1.aws.neon.tech/neondb?connect_timeout=15&sslmode=verify-full"
+
+#CACHE
+CACHE_URL="redis://default:DSoQUqT3Vw1AiiKE69s137Qc3yHIJSyN@redis-11927.crce207.sa-east-1-2.ec2.cloud.redislabs.com:11927"
+CACHE_HOST="redis-11927.crce207.sa-east-1-2.ec2.cloud.redislabs.com"
+CACHE_PORT=11927
+CACHE_DB=0
+CACHE_TTL=3600
 ```
 
 ### 3. Subindo o Banco de Dados
