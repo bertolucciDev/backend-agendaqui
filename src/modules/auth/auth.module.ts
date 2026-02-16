@@ -25,7 +25,7 @@ import { ResetPasswordUseCase } from './application/use-cases/reset-password.han
 import { VerifyEmailUseCase } from './application/use-cases/verify-email.handler';
 
 import { JwtStrategy } from '../../modules/auth/infra/strategies/jwt-strategy';
-import { parseTimeToSeconds } from '@/shared/utils/time.util';
+import { parseTimeToSeconds } from '../../shared/utils/time.util';
 
 import { SignInAuthController } from './presentation/controllers/sign-in-auth.controller';
 // import { VerifyEmailAuthController } from './presentation/controllers/verify-email-auth.controller';

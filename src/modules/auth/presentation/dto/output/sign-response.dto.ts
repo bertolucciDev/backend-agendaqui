@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { ResponseUserDTO } from '@/modules/user/presentation/dto/output/response-user.dto';
+import { ResponseUserDTO } from '../../../../../modules/user/presentation/dto/output/response-user.dto';
 
 export class SignResponseDTO {
   @Expose()

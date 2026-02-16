@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AbstractUserReadRepository } from '@/modules/user/domain/repositories/user.read-repository';
+import { AbstractUserReadRepository } from '../../../../modules/user/domain/repositories/user.read-repository';
 import { CheckEmailInput } from './implements/check-email.input';
 
 @Injectable()
