@@ -9,7 +9,7 @@ import { GenerateVerificationCode } from '../../../../shared/utils/generate-veri
 import { Email } from '../../../../core/value-objects/email.vo';
 import { Token } from '../../../../core/value-objects/token.vo';
 import { VerificationType } from '../../../../core/enum/verification-type.enum';
-import { AbstractEmailService } from '@/core/services/email.service';
+import { AbstractEmailService } from '../../../../core/services/email.service';
 
 @Injectable()
 export class RequestPasswordResetUseCase {
