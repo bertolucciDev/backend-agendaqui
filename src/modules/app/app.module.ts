@@ -4,9 +4,9 @@ import { CheckHealthUseCase } from './application/use-cases/check-health.use-cas
 import { CheckApiHealthController } from './presentation/controller/check-api-health.controller';
 import { PrismaHealthRepository } from './infra/repositories/prisma-health.provider';
 import { DatabaseHealthRepository } from './domain/repositories/database-health.repository';
-import { UserModule } from '../user/user.module';
 import { CacheHealthRepository } from './domain/repositories/cache-health.repository';
 import { RedisHealthRepository } from './infra/repositories/redis-health.provider';
+import { UserModule } from '../user/user.module';
 import { AuthModule } from '../auth/auth.module';
 // import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 

@@ -13,9 +13,9 @@ const check_health_use_case_1 = require("./application/use-cases/check-health.us
 const check_api_health_controller_1 = require("./presentation/controller/check-api-health.controller");
 const prisma_health_provider_1 = require("./infra/repositories/prisma-health.provider");
 const database_health_repository_1 = require("./domain/repositories/database-health.repository");
-const user_module_1 = require("../user/user.module");
 const cache_health_repository_1 = require("./domain/repositories/cache-health.repository");
 const redis_health_provider_1 = require("./infra/repositories/redis-health.provider");
+const user_module_1 = require("../user/user.module");
 const auth_module_1 = require("../auth/auth.module");
 let AppModule = class AppModule {
 };
