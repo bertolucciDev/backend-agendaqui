@@ -10,7 +10,7 @@ Este projeto foi construído com uma stack moderna para garantir escalabilidade,
 - **[NestJS](https://nestjs.com/)** 🦁: Framework Node.js progressivo para construir aplicações server-side eficientes e escaláveis.
 - **[Node.js 20 LTS](https://nodejs.org/)** 🟢: Ambiente de execução JavaScript (Runtime) estável e moderno.
 - **[Fastify](https://fastify.dev/)** ⚡: Framework web focado em performance e baixo overhead, utilizado como adaptador HTTP no NestJS (substituindo o Express).
-- **[Docker](https://www.docker.com/)** 🐳 + **[PostgreSQL 16 Alpine](https://www.postgresql.org/)** 🐘: Banco de dados relacional rodando em container, utilizando a versão Alpine (leve) do Postgres 16.
+- **[PostgreSQL 16 Alpine](https://www.postgresql.org/)** 🐘: Banco de dados relacional rodando em container, utilizando a versão Alpine (leve) do Postgres 16.
 - **[Prisma ORM v7](https://www.prisma.io/)** 🔺: ORM (Object-Relational Mapping) de nova geração para Node.js e TypeScript, facilitando o acesso ao banco de dados.
 - **[Zod](https://zod.dev/)** 💎: Biblioteca de validação de esquemas TypeScript-first, utilizada para garantir a integridade das variáveis de ambiente.
 - **[Class Validator](https://github.com/typestack/class-validator) & [Class Transformer](https://github.com/typestack/class-transformer)** 🛠️: Utilizados para validação de dados de entrada (DTOs) e serialização/transformação de respostas.
@@ -45,23 +45,21 @@ pnpm install
 Crie um arquivo `.env` na raiz do projeto. Você pode usar o exemplo abaixo, ajustando conforme necessário (baseado no `env.validation.ts`):
 
 ```env
-APP_NAME=Back-Agendamento
-APP_ENV=dev
-APP_PORT=3000
-APP_URL=http://localhost:3000
+APP_NAME="Agendaqui"
+APP_ENV="dev"
+APP_PORT="3000"
+APP_URL="http://localhost:3000/"
 
-# Conexão com o Banco de Dados (Docker)
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/app_db?schema=public"
+#DATABASE
+DATABASE_URL="postgresql://neondb_owner:npg_Y2atOj5Kfvgp@ep-blue-darkness-ac4pkr8r-pooler.sa-east-1.aws.neon.tech/neondb?connect_timeout=15&sslmode=verify-full"
+
+#CACHE
+CACHE_URL="redis://default:DSoQUqT3Vw1AiiKE69s137Qc3yHIJSyN@redis-11927.crce207.sa-east-1-2.ec2.cloud.redislabs.com:11927"
+CACHE_HOST="redis-11927.crce207.sa-east-1-2.ec2.cloud.redislabs.com"
+CACHE_PORT=11927
+CACHE_DB=0
+CACHE_TTL=3600
 ```
-
-### 3. Subindo o Banco de Dados
-
-Utilize o Docker Compose para iniciar o container do PostgreSQL:
-
-```bash
-docker-compose up -d
-```
-*Isso iniciará o banco de dados `postgres:16-alpine` na porta 5432.*
 
 ### 4. Configurando o Prisma
 

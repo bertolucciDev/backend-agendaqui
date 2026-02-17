@@ -158,6 +158,7 @@ export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>;
 type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>;
 export declare const ModelName: {
     readonly User: "User";
+    readonly Verification: "Verification";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export interface TypeMapCb<GlobalOmitOptions = {}> extends runtime.Types.Utils.Fn<{
@@ -170,7 +171,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "user";
+        modelProps: "user" | "verification";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -248,6 +249,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 };
             };
         };
+        Verification: {
+            payload: Prisma.$VerificationPayload<ExtArgs>;
+            fields: Prisma.VerificationFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.VerificationFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.VerificationFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>;
+                };
+                findFirst: {
+                    args: Prisma.VerificationFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.VerificationFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>;
+                };
+                findMany: {
+                    args: Prisma.VerificationFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>[];
+                };
+                create: {
+                    args: Prisma.VerificationCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>;
+                };
+                createMany: {
+                    args: Prisma.VerificationCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.VerificationCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>[];
+                };
+                delete: {
+                    args: Prisma.VerificationDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>;
+                };
+                update: {
+                    args: Prisma.VerificationUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>;
+                };
+                deleteMany: {
+                    args: Prisma.VerificationDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.VerificationUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.VerificationUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>[];
+                };
+                upsert: {
+                    args: Prisma.VerificationUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$VerificationPayload>;
+                };
+                aggregate: {
+                    args: Prisma.VerificationAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateVerification>;
+                };
+                groupBy: {
+                    args: Prisma.VerificationGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.VerificationGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.VerificationCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.VerificationCountAggregateOutputType> | number;
+                };
+            };
+        };
     };
 } & {
     other: {
@@ -290,6 +365,18 @@ export declare const UserScalarFieldEnum: {
     readonly updatedAt: "updatedAt";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
+export declare const VerificationScalarFieldEnum: {
+    readonly id: "id";
+    readonly userId: "userId";
+    readonly token: "token";
+    readonly code: "code";
+    readonly type: "type";
+    readonly expiresAt: "expiresAt";
+    readonly isUsed: "isUsed";
+    readonly createdAt: "createdAt";
+    readonly usedAt: "usedAt";
+};
+export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";
@@ -300,6 +387,11 @@ export declare const QueryMode: {
     readonly insensitive: "insensitive";
 };
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
+export declare const NullsOrder: {
+    readonly first: "first";
+    readonly last: "last";
+};
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>;
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>;
 export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>;
@@ -307,6 +399,8 @@ export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>;
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>;
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>;
+export type EnumVerificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationType'>;
+export type ListEnumVerificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationType[]'>;
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>;
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>;
 export type BatchPayload = {
@@ -334,6 +428,7 @@ export type PrismaClientOptions = ({
 };
 export type GlobalOmitConfig = {
     user?: Prisma.UserOmit;
+    verification?: Prisma.VerificationOmit;
 };
 export type LogLevel = 'info' | 'query' | 'warn' | 'error';
 export type LogDefinition = {

@@ -1,0 +1,86 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+
+import type { IEmailService } from '../../../mail/domain/services/email.service';
+import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
+import { AbstractVerificationRepository } from '../../domain/repositories/verify.repository';
+
+import { RequestPasswordResetCommand } from './implements/request-password-reset.command';
+import { GenerateVerificationCode } from '../../../../shared/utils/generate-verification-code.util';
+import { Email } from '../../../../shared/domain/value-objects/email.vo';
+import { Token } from '../../../../shared/domain/value-objects/token.vo';
+import { VerificationType } from '../../../../shared/types/verification-type.type';
+
+@Injectable()
+export class RequestPasswordResetUseCase {
+  constructor(
+    @Inject('IEmailService')
+    private readonly emailService: IEmailService,
+    private readonly userReadRepository: AbstractUserReadRepository,
+    private readonly verificationRepository: AbstractVerificationRepository,
+  ) {}
+
+  async execute(command: RequestPasswordResetCommand): Promise<void> {
+    const email = new Email(command.email);
+    const existingUser = await this.userReadRepository.findByEmail(email);
+    if (!existingUser) {
+      return;
+    }
+
+    const rawToken = randomUUID();
+    const verificationToken = new Token(rawToken);
+    const verificationCode = GenerateVerificationCode(6);
+    const verificationType = VerificationType.RESET_PASSWORD;
+
+    await this.verificationRepository.create({
+      userId: existingUser.getId(),
+      token: verificationToken.toString(),
+      code: verificationCode,
+      type: verificationType,
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24h,
+      isUsed: false,
+    });
+
+    const resetLink = `http://localhost:5173/step1?token=${verificationToken.getValue()}&code=${verificationCode}&type=${verificationType}`;
+
+    await this.emailService.sendEmail({
+      to: [existingUser.getEmailValue()],
+      subject: 'Recuperação de senha',
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; line-height: 1.5;">
+        <p>Olá ${existingUser.getName()},</p>
+        <p>Você solicitou a recuperação da sua senha. Clique no botão abaixo:</p>
+
+        <table cellspacing="0" cellpadding="0" border="0" align="center" style="margin: 20px 0;">
+          <tr>
+            <td align="center">
+              <p style="font-size: 24px; font-weight: bold; color: #3803f6; margin-bottom: 20px;">
+                ${verificationCode}
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" bgcolor="#3803f6" style="border-radius: 8px;">
+              <a href="${resetLink}"
+                target="_blank"
+                style="font-size: 16px;
+                        font-weight: bold;
+                        font-family: Arial, sans-serif;
+                        color: #ffffff;
+                        text-decoration: none;
+                        padding: 14px 28px;
+                        display: inline-block;">
+                Redefinir Senha
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <p style="color: #333333; text-decoration: none; margin-top: 20px;">
+          Se você não solicitou a redefinição, pode ignorar este e-mail.
+        </p>
+      </div>
+    `,
+    });
+  }
+}

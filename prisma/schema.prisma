@@ -126,7 +126,6 @@ model Service {
 model Booking {
   id String @id @default(uuid()) @db.Uuid // ID único do agendamento
   startTime DateTime // Início do agendamento
-  endTime DateTime // Fim do agendamento
   peopleCount Int // Quantidade de pessoas
   status BookingStatus @default(PENDING) // Status do agendamento
   totalAmount Decimal @db.Decimal(10,2) // Valor total
