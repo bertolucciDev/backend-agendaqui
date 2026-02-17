@@ -7,7 +7,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Role } from '../../../../../shared/types/role.type';
+import { Role } from '../../../../../core/enum/role.enum';
 
 export class CreateUserDTO {
   @IsString()

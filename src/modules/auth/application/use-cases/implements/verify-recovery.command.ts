@@ -1,4 +1,4 @@
-import { VerificationType } from '../../../../../shared/types/verification-type.type';
+import { VerificationType } from '../../../../../core/enum/verification-type.enum';
 
 export class VerifyRecoveryCommand {
   constructor(

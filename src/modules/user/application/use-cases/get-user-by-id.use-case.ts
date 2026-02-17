@@ -3,7 +3,7 @@ import { AbstractUserReadRepository } from '../../../../modules/user/domain/repo
 import { ResponseUserDTO } from '../../presentation/dto/output/response-user.dto';
 import { ResponseAdminDTO } from '../../../../modules/user/presentation/dto/output/response-admin.dto';
 import { GetUserByIdInput } from './implements/get-user-by-id.query';
-import { Role } from '../../../../shared/types/role.type';
+import { Role } from '../../../../core/enum/role.enum';
 
 @Injectable()
 export class GetUserByIdUseCase {

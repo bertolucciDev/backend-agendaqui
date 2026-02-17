@@ -5,13 +5,12 @@ import { env } from '../../../../config/env';
 
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 import { AbstractAuthTokenCacheWriteRepository } from '../../domain/repositories/auth-token-cache.write-repository';
-import { CreateUserSessionCommand } from './implements/create-user-session.command';
 
 import { SignResponseDTO } from '../../presentation/dto/output/sign-response.dto';
 import { ResponseUserDTO } from '../../../user/presentation/dto/output/response-user.dto';
 
-import { Token } from '../../../../shared/domain/value-objects/token.vo';
-import { Email } from '../../../../shared/domain/value-objects/email.vo';
+import { Token } from '../../../../core/value-objects/token.vo';
+import { Email } from '../../../../core/value-objects/email.vo';
 import { parseTimeToSeconds } from '../../../../shared/utils/time.util';
 
 @Injectable()

@@ -1,8 +1,8 @@
-import { Email } from '../../../../shared/domain/value-objects/email.vo';
-import { Password } from '../../../../shared/domain/value-objects/password.vo';
-import { Role } from '../../../../shared/types/role.type';
+import { Email } from '../../../../core/value-objects/email.vo';
+import { Password } from '../../../../core/value-objects/password.vo';
+import { Role } from '../../../../core/enum/role.enum';
 import { BaseEntityType } from '../../../../core/types/base-entity.type';
-import { AggregateRoot } from '../../../../core/domain/entities/aggregate-root';
+import { AggregateRoot } from '../../../../core/entities/aggregate-root';
 import { v4 as uuidv4 } from 'uuid';
 
 interface UserProps extends BaseEntityType {

@@ -1,5 +1,5 @@
-import { Verification } from '../../../../shared/domain/value-objects/verify.vo';
-import { VerificationType } from '../../../../shared/types/verification-type.type';
+import { Verification } from '../../../../core/value-objects/verify.vo';
+import { VerificationType } from '../../../../core/enum/verification-type.enum';
 
 export abstract class AbstractVerificationRepository {
   abstract create(data: {

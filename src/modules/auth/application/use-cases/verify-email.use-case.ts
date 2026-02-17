@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AbstractVerificationRepository } from '../../domain/repositories/verify.repository';
 import { AbstractUserWriteRepository } from '../../../user/domain/repositories/user.write-repository';
-import { VerifyRecoveryUseCase } from './verify-recovery.handler';
-import { VerificationType } from '../../../../shared/types/verification-type.type';
+import { VerifyRecoveryUseCase } from './verify-recovery.use-case';
+import { VerificationType } from '../../../../core/enum/verification-type.enum';
 import { VerifyEmailCommand } from './implements/verify-email.command';
 
 @Injectable()

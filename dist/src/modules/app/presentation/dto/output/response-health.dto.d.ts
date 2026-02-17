@@ -1,4 +1,4 @@
-import { HealthStatus } from '../../../../../shared/types/health-status.type';
+import { HealthStatus } from '../../../../../core/types/health-status.type';
 export declare class ResponseHealthDTO {
     status: HealthStatus;
     cache: HealthStatus;

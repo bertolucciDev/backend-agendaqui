@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClassConstructor, plainToInstance } from 'class-transformer';
-import { CacheRepository } from '../../../../core/domain/repositories/cache.repository';
-import { MetaInputVO } from '../../../../shared/domain/value-objects/meta-input.vo';
+import { CacheRepository } from './repositories/cache.repository';
+import { MetaInputVO } from '../../../../core/value-objects/meta-input.vo';
 import { REDIS_CLIENT } from '../../config/redis.config';
 import Redis from 'ioredis';
 

@@ -3,6 +3,8 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
+import { apiReference } from 'node_modules/@scalar/nestjs-api-reference/dist/index.cjs';
+import { env } from '../src/config/env';
 
 let cachedApp;
 
@@ -15,7 +17,7 @@ async function bootstrap() {
     app.enableCors({
       origin: ['http://localhost:5173', 'https://agendaqui-web.vercel.app'],
       credentials: true,
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     });
 
     const config = new DocumentBuilder()
@@ -31,15 +33,27 @@ async function bootstrap() {
         'access-token',
       )
       .build();
+
     const document = () => SwaggerModule.createDocument(app, config);
 
-    SwaggerModule.setup('docs', app, document, {
-      customCssUrl: 'https://unpkg.com/swagger-ui-dist/swagger-ui.css',
-      customJs: [
-        'https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js',
-        'https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js',
-      ],
-    });
+    app.use(
+      '/docs',
+      apiReference({
+        content: document,
+        withFastify: true,
+        layout: 'modern',
+        theme: 'elysiajs',
+        hideModels: true,
+        hideClientButton: true,
+        persistAuth: true,
+        metaData: {
+          title: `${env.APP_NAME} - Documentação da API`,
+        },
+        authentication: {
+          preferredSecurityScheme: 'bearer',
+        },
+      }),
+    );
 
     await app.init();
 

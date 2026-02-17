@@ -3,7 +3,7 @@ import { Expose } from 'class-transformer';
 import { IsEmail, IsEnum, IsString, IsUUID } from 'class-validator';
 
 import { User } from '../../../../../modules/user/domain/entities/user.entity';
-import { Role } from '../../../../../shared/types/role.type';
+import { Role } from '../../../../../core/enum/role.enum';
 
 export class ResponseUserDTO {
   @IsUUID()

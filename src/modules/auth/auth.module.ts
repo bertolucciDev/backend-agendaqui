@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { EmailModule } from '../../modules/mail/email.module';
 import { CacheModule } from '../../shared/infra/cache/cache.module';
 import { env } from '../../config/env';
 
@@ -15,23 +14,23 @@ import { PrismaUserReadRepository } from '../user/infra/repositories/database/pr
 import { PrismaUserWriteRepository } from '../user/infra/repositories/database/prisma-user.write-repository';
 import { PrismaPasswordResetTokenRepository } from '../../modules/auth/infra/repositories/database/prisma-auth.repository';
 
-import { RequestPasswordResetUseCase } from './application/use-cases/request-password-reset.handler';
-import { LogoutUserUseCase } from './application/use-cases/logout-user.handler';
+import { RequestPasswordResetUseCase } from './application/use-cases/request-password-reset.use-case';
+import { LogoutUserUseCase } from './application/use-cases/logout-user.use-case';
 import { SignInUseCase } from './application/use-cases/sign-in.use-case';
-import { CreateUserSessionUseCase } from './application/use-cases/create-user-session.handler';
-import { VerifyRecoveryUseCase } from './application/use-cases/verify-recovery.handler';
+import { CreateUserSessionUseCase } from './application/use-cases/create-user-session.use-case';
+import { VerifyRecoveryUseCase } from './application/use-cases/verify-recovery.use-case';
 import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
-import { ResetPasswordUseCase } from './application/use-cases/reset-password.handler';
-import { VerifyEmailUseCase } from './application/use-cases/verify-email.handler';
+import { ResetPasswordUseCase } from './application/use-cases/reset-password.use-case';
+import { VerifyEmailUseCase } from './application/use-cases/verify-email.use-case';
 
 import { JwtStrategy } from '../../modules/auth/infra/strategies/jwt-strategy';
 import { parseTimeToSeconds } from '../../shared/utils/time.util';
 
 import { SignInAuthController } from './presentation/controllers/sign-in-auth.controller';
 import { SignUpAuthController } from './presentation/controllers/sign-up-auth.controller';
-// import { VerifyEmailAuthController } from './presentation/controllers/verify-email-auth.controller';
-// import { LogoutAuthController } from './presentation/controllers/logout-auth.controller';
-// import { RequestPasswordResetAuthController } from './presentation/controllers/request-password-reset-auth.controller';
+import { VerifyEmailAuthController } from './presentation/controllers/verify-email-auth.controller';
+import { LogoutAuthController } from './presentation/controllers/logout-auth.controller';
+import { RequestPasswordResetAuthController } from './presentation/controllers/request-password-reset-auth.controller';
 // import { VerifyResetPasswordAuthController } from './presentation/controllers/reset-password-auth.controller';
 
 const WriteUseCases = [
@@ -52,16 +51,15 @@ const ReadUseCases = [SignInUseCase];
       secret: env.JWT_SECRET,
       signOptions: { expiresIn: parseTimeToSeconds(env.ACCESS_TOKEN_EXP) },
     }),
-    EmailModule,
     CacheModule,
   ],
   controllers: [
     SignInAuthController,
     SignUpAuthController,
-    // VerifyEmailAuthController,
-    // RequestPasswordResetAuthController,
+    VerifyEmailAuthController,
+    RequestPasswordResetAuthController,
     // VerifyResetPasswordAuthController,
-    // LogoutAuthController,
+    LogoutAuthController,
   ],
   providers: [
     JwtStrategy,

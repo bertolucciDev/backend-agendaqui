@@ -4,9 +4,9 @@ import { User } from '../../../../../modules/user/domain/entities/user.entity';
 import { AbstractUserWriteRepository } from '../../../../../modules/user/domain/repositories/user.write-repository';
 import { PrismaService } from '../../../../../shared/infra/database/prisma/prisma.service';
 
-import { Email } from '../../../../../shared/domain/value-objects/email.vo';
-import { Password } from '../../../../../shared/domain/value-objects/password.vo';
-import { Role } from '../../../../../shared/types/role.type';
+import { Email } from '../../../../../core/value-objects/email.vo';
+import { Password } from '../../../../../core/value-objects/password.vo';
+import { Role } from '../../../../../core/enum/role.enum';
 
 @Injectable()
 export class PrismaUserWriteRepository implements AbstractUserWriteRepository {

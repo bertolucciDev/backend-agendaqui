@@ -1,4 +1,4 @@
-import { Role } from '../../../../shared/types/role.type';
+import { Role } from '../../../../core/enum/role.enum';
 
 export interface JwtUser {
   sub: string;

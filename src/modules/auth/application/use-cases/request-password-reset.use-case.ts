@@ -1,21 +1,20 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-import type { IEmailService } from '../../../mail/domain/services/email.service';
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 import { AbstractVerificationRepository } from '../../domain/repositories/verify.repository';
 
 import { RequestPasswordResetCommand } from './implements/request-password-reset.command';
 import { GenerateVerificationCode } from '../../../../shared/utils/generate-verification-code.util';
-import { Email } from '../../../../shared/domain/value-objects/email.vo';
-import { Token } from '../../../../shared/domain/value-objects/token.vo';
-import { VerificationType } from '../../../../shared/types/verification-type.type';
+import { Email } from '../../../../core/value-objects/email.vo';
+import { Token } from '../../../../core/value-objects/token.vo';
+import { VerificationType } from '../../../../core/enum/verification-type.enum';
+import { AbstractEmailService } from '@/core/services/email.service';
 
 @Injectable()
 export class RequestPasswordResetUseCase {
   constructor(
-    @Inject('IEmailService')
-    private readonly emailService: IEmailService,
+    private readonly emailService: AbstractEmailService,
     private readonly userReadRepository: AbstractUserReadRepository,
     private readonly verificationRepository: AbstractVerificationRepository,
   ) {}

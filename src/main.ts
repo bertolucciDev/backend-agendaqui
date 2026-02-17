@@ -3,58 +3,102 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  ClassSerializerInterceptor,
+  ConsoleLogger,
+  ValidationPipe,
+} from '@nestjs/common';
+import { env } from '@/config/env';
 import { AppModule } from './modules/app/app.module';
-import { env } from './config/env';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+// import { ResponseInterceptor } from '@/shared/interceptors/response.interceptor';
+import fastifyMultipart from '@fastify/multipart';
+// import { ParseIntIdsPipe } from '@/shared/pipes/parse-int-ids.pipe';
+// import fastifyHelmet from '@fastify/helmet';
+import { apiReference } from '@scalar/nestjs-api-reference';
+import fastifyCors from '@fastify/cors';
+// import { RedisIoAdapter } from '@/shared/infra/cache/redis/redis-io-adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
+    {
+      logger: new ConsoleLogger({
+        prefix: env.APP_NAME,
+      }),
+    },
   );
-
-  app.enableCors({
-    origin: ['http://localhost:5173', 'https://agendaqui-web.vercel.app'],
-    credentials: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  });
-
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
-      transform: true,
     }),
+    // new ParseIntIdsPipe(),
   );
+
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  // app.useGlobalInterceptors(new ResponseInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle(env.APP_NAME)
-    .setDescription('API Documentation')
+    .setDescription(`Documentação oficial da API ${env.APP_NAME}.`)
     .setVersion('1.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-      },
-      'access-token',
-    )
+    .addBearerAuth()
+    .addTag('auth')
+    .addTag('user')
     .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('docs', app, documentFactory);
+  if (env.APP_ENV !== 'prod') {
+    const document = () => SwaggerModule.createDocument(app, config);
+    app.use(
+      '/docs',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      apiReference({
+        content: document,
+        withFastify: true,
+        layout: 'modern',
+        theme: 'elysiajs',
+        hideModels: true,
+        hideClientButton: true,
+        persistAuth: true,
+        metaData: {
+          title: `${env.APP_NAME} - Documentação da API`,
+        },
+        authentication: {
+          preferredSecurityScheme: 'bearer',
+        },
+      }),
+    );
+  }
+
+  // const redisIoAdapter = new RedisIoAdapter(app);
+  // await redisIoAdapter.connectToRedis();
+  // app.useWebSocketAdapter(redisIoAdapter);
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  await app.register(fastifyMultipart);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  await app.register(fastifyCors, {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  });
+
+  // if (env.APP_ENV === 'stage' || env.APP_ENV === 'prod') {
+  // await app.register(fastifyHelmet);
+  // }
 
   await app.listen(env.APP_PORT);
 
   if (env.APP_ENV === 'dev') {
     console.log('------------------------------------');
-    console.log(`API running on port ${env.APP_PORT}.`);
+    console.log(`API rodando na porta ${env.APP_PORT}.`);
     console.log(`API: ${env.APP_URL}`);
     console.log(`Docs: ${env.APP_URL}/docs`);
     console.log('------------------------------------');
   }
 }
-void bootstrap();
+
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+bootstrap();
