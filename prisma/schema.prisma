@@ -1,5 +1,5 @@
 generator client {
-  provider     = "prisma-client"
+  provider     = "prisma-client-js"
   output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
@@ -9,95 +9,176 @@ datasource db {
 }
 
 enum Role {
-  USER        // Usuário comum do sistema
-  ADMIN       // Administrador com permissões elevadas
+   USER      @map("user") // Usuário comum
+  ADMIN    @map("admin")  // Administrador geral
+  EMPLOYE   @map("EMPLOYE") // Funcionário
+  MANAGER   @map("MANAGER") // Gerente do estabelecimento
+}
+
+enum VerificationType {
+  RESET_PASSWORD @map("reset_password") // Recuperação de senha
+  VERIFY_EMAIL   @map("verify_email") // Verificação de email
 }
 
 enum BookingStatus {
-  PENDING     // Agendamento aguardando confirmação
-  CONFIRMED   // Agendamento confirmado
-  CANCELED    // Agendamento cancelado
-  COMPLETED   // Agendamento concluído
+  PENDING // Aguardando confirmação
+  CONFIRMED // Confirmado
+  CANCELED // Cancelado
+  COMPLETED // Concluído
+  NO_SHOW // Cliente não compareceu
+}
+
+enum PaymentStatus {
+  PENDING // Pagamento pendente
+  PAID // Pagamento realizado
+  FAILED // Pagamento falhou
+  REFUNDED // Pagamento reembolsado
 }
 
 model User {
-  id         String   @id @default(uuid())      // ID único gerado automaticamente (UUID)
-  name       String                              // Nome do usuário
-  email      String   @unique                    // Email único usado para login
-  password   String                              // Senha criptografada
-  role       Role     @default(USER)             // Tipo do usuário (USER por padrão)
-  isVerified Boolean  @default(false)            // Indica se o email foi verificado
-  createdAt  DateTime @default(now())            // Data de criação automática
-  updatedAt  DateTime @updatedAt                 // Atualiza automaticamente ao modificar
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String
+  role         Role     @default(USER)
+  isVerified   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  verifications Verification[]
+  bookings Booking[]
 }
 
-model Subscription {
-  id         String   @id @default(uuid())       // ID único da assinatura
-  planType   String                              // Tipo do plano (ex: BASIC, PREMIUM)
-  price      Decimal  @db.Decimal(10,2)          // Valor monetário com 2 casas decimais
-  startDate  DateTime @default(now())            // Data de início da assinatura
-  endDate    DateTime?                           // Data de término (opcional)
-  active     Boolean  @default(true)             // Indica se a assinatura está ativa
-  createdAt  DateTime @default(now())            // Data de criação
-  updatedAt  DateTime @updatedAt                 // Data de atualização automática
+model Verification {
+  id        String   @id @default(uuid()) // ID único
+  userId    String // FK do usuário
+  token     String   @unique // Token único
+  code      String   @unique // Código numérico único
+  type      VerificationType // Tipo da verificação
+  expiresAt DateTime // Data de expiração
+  isUsed    Boolean   @default(false) // Indica se já foi usado
+  createdAt DateTime   @default(now()) // Data de criação
+  usedAt    DateTime? // Data em que foi usado
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade) // Relação com User
+
+  @@index([userId]) // Índice para busca por usuário
+  @@index([token]) // Índice para busca por token
+  @@index([code]) // Índice para busca por código
 }
 
 model Establishment {
-  id           String      @id @default(uuid())  // ID único do estabelecimento
-  name         String                            // Nome do estabelecimento
-  description  String?                           // Descrição opcional
-  phone        String?                           // Telefone opcional
-  address      String                            // Endereço completo
-  latitude     Float                             // Latitude para localização no mapa
-  longitude    Float                             // Longitude para localização no mapa
+  id String @id @default(uuid()) @db.Uuid // ID único do estabelecimento
+  name String // Nome do estabelecimento
+  description String? // Descrição opcional
+  phone String? // Telefone opcional
+  address String // Endereço completo
+  employees Employee[] // Relação 1:N com funcionários
+  services Service[] // Relação 1:N com serviços
+  bookings Booking[] // Relação 1:N com agendamentos
+  subscription Subscription? // Relação 1:1 com assinatura
+  managers Manager[] // Relação 1:N com gerentes
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Atualização automática
+  deletedAt DateTime? //delete
+}
 
-  employees    Employee[]                        // Lista de funcionários (relação 1:N)
-  services     Service[]                         // Lista de serviços oferecidos (1:N)
-  bookings     Booking[]                         // Lista de agendamentos (1:N)
-
-  createdAt    DateTime    @default(now())       // Data de criação
-  updatedAt    DateTime    @updatedAt            // Data de atualização automática
+model Subscription {
+  id String @id @default(uuid()) @db.Uuid // ID único da assinatura
+  establishmentId String @unique @db.Uuid // FK única (1:1)
+  planType String // Tipo do plano
+  price Decimal @db.Decimal(10,2) // Valor do plano
+  startDate DateTime @default(now()) // Início da assinatura
+  endDate DateTime? // Fim da assinatura
+  active Boolean @default(true) // Indica se está ativa
+  establishment Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com estabelecimento
+  updatedAt DateTime @updatedAt // Atualização automática
 }
 
 model Employee {
-  id               String        @id @default(uuid())  // ID único do funcionário
-  name             String                              // Nome do funcionário
-  specialty        String?                             // Especialidade (opcional)
+  id String @id @default(uuid()) @db.Uuid // ID único do funcionário
+  name String // Nome do funcionário
+  payment_amount Decimal @db.Decimal(10,2) // Valor que receberá
+  specialty String? // Especialidade
+  establishmentId String @db.Uuid // FK do estabelecimento
+  establishment Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com estabelecimento
+  bookings Booking[] // Relação com agendamentos
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Atualização automática
+  deletedAt DateTime? // delete
 
-  establishmentId  String                              // Chave estrangeira do estabelecimento
-  establishment    Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com Establishment (se deletar o estabelecimento, deleta funcionários)
-
-  bookings         Booking[]                           // Agendamentos vinculados ao funcionário
+  @@index([establishmentId]) // Índice por estabelecimento
 }
 
 model Service {
-  id               String        @id @default(uuid())  // ID único do serviço
-  name             String                              // Nome do serviço
-  price            Decimal       @db.Decimal(10,2)     // Preço do serviço
-  durationMinutes  Int                                 // Duração do serviço em minutos
+  id String @id @default(uuid()) @db.Uuid // ID único do serviço
+  name String // Nome do serviço
+  price Decimal @db.Decimal(10,2) // Preço do serviço
+  durationMinutes Int // Duração em minutos
+  establishmentId String @db.Uuid // FK do estabelecimento
+  establishment Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com estabelecimento
+  bookingServices BookingService[] // Relação N:N com agendamentos
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Atualização automática
+  deletedAt DateTime? //delete
 
-  establishmentId  String                              // Chave estrangeira do estabelecimento
-  establishment    Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com Establishment
-
-  bookings         Booking[]                           // Agendamentos que incluem esse serviço
+  @@index([establishmentId]) // Índice por estabelecimento
 }
 
 model Booking {
-  id               String        @id @default(uuid())  // ID único do agendamento
-  date             DateTime                            // Data do agendamento
-  time             String                              // Horário do agendamento (ex: "14:30")
-  peopleCount      Int                                 // Quantidade de pessoas
-  status           BookingStatus @default(PENDING)     // Status atual do agendamento
-  totalAmount      Decimal?      @db.Decimal(10,2)     // Valor total calculado (opcional)
+  id String @id @default(uuid()) @db.Uuid // ID único do agendamento
+  startTime DateTime // Início do agendamento
+  endTime DateTime // Fim do agendamento
+  peopleCount Int // Quantidade de pessoas
+  status BookingStatus @default(PENDING) // Status do agendamento
+  totalAmount Decimal @db.Decimal(10,2) // Valor total
+  userId String // FK do usuário
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) // Relação com usuário
+  establishmentId String @db.Uuid // FK do estabelecimento
+  establishment Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com estabelecimento
+  employeeId String? @db.Uuid // FK opcional do funcionário
+  employee Employee? @relation(fields: [employeeId], references: [id]) // Relação opcional
 
-  establishmentId  String                              // Chave estrangeira do estabelecimento
-  establishment    Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com Establishment
+  bookingServices BookingService[] // Relação N:N com serviços
+  payment Payment? // Relação 1:1 com pagamento
 
-  employeeId       String?                             // Chave estrangeira opcional do funcionário
-  employee         Employee?     @relation(fields: [employeeId], references: [id]) // Relação opcional com funcionário
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Atualização automática
+  deletedAt DateTime? // delete
 
-  services         Service[]                           // Relação muitos-para-muitos com serviços
+  @@index([establishmentId]) // Índice por estabelecimento
+  @@index([employeeId]) // Índice por funcionário
+  @@index([startTime]) // Índice por data
+}
 
-  createdAt        DateTime      @default(now())       // Data de criação
-  updatedAt        DateTime      @updatedAt            // Atualização automática
+model BookingService {
+  bookingId String @db.Uuid // FK do agendamento
+  serviceId String @db.Uuid // FK do serviço
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade) // Relação com booking
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade) // Relação com service
+  @@id([bookingId, serviceId]) // Chave composta
+}
+
+model Payment {
+  id String @id @default(uuid()) @db.Uuid // ID único do pagamento
+  bookingId String @unique @db.Uuid // FK única (1:1)
+  amount Decimal @db.Decimal(10,2) // Valor pago
+  status PaymentStatus @default(PENDING) // Status do pagamento
+  paidAt DateTime? // Data do pagamento
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade) // Relação com booking
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Atualização automática
+  deletedAt DateTime? //  delete
+}
+
+model Manager {
+  id String @id @default(uuid()) @db.Uuid // ID único do gerente
+  name String // Nome do gerente
+  email String @unique // Email único
+  password String // Senha do gerente
+  establishmentId String @db.Uuid // FK do estabelecimento
+  establishment Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade) // Relação com estabelecimento
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Atualização automática
+  deletedAt DateTime? // delete
+
+  @@index([establishmentId]) // Índice por estabelecimento
 }
