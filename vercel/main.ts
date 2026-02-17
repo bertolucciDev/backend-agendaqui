@@ -44,23 +44,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
 
   if (env.APP_ENV !== 'prod') {
-    try {
-      const { apiReference } = await import('@scalar/nestjs-api-reference');
-
-      server.use(
-        '/docs',
-        apiReference({
-          content: document,
-          layout: 'modern',
-          theme: 'elysiajs',
-          hideModels: true,
-          hideClientButton: true,
-          persistAuth: true,
-        }),
-      );
-    } catch (error) {
-      console.error('Scalar failed to load:', error);
-    }
+    SwaggerModule.setup('docs', app, document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+      },
+    });
   }
 
   await app.init();
