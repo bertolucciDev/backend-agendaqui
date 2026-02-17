@@ -3,7 +3,7 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
-import { apiReference } from 'node_modules/@scalar/nestjs-api-reference/dist/index.cjs';
+import { apiReference } from '@scalar/nestjs-api-reference';
 import { env } from '../src/config/env';
 
 let cachedApp;
@@ -40,23 +40,15 @@ async function bootstrap() {
       '/docs',
       apiReference({
         content: document,
-        withFastify: true,
         layout: 'modern',
         theme: 'elysiajs',
         hideModels: true,
         hideClientButton: true,
         persistAuth: true,
-        metaData: {
-          title: `${env.APP_NAME} - Documentação da API`,
-        },
-        authentication: {
-          preferredSecurityScheme: 'bearer',
-        },
       }),
     );
 
     await app.init();
-
     cachedApp = server;
   }
 

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NodemailerEmailService } from './nodemailer/nodemailer.service';
 import { FakeEmailService } from './nodemailer/fake-email.service';
-import { AbstractEmailService } from '@/core/services/email.service';
+import { AbstractEmailService } from '../../../core/services/email.service';
 
 @Module({
   imports: [ConfigModule],
