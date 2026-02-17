@@ -5,9 +5,7 @@ import { env } from '../../../../config/env';
 @Injectable()
 export class RedisService extends Redis implements OnModuleDestroy {
   constructor() {
-    super(env.CACHE_URL, {
-      retryStrategy: (times) => (times >= 2 ? null : 2000),
-    });
+    super(env.CACHE_URL);
   }
 
   onModuleDestroy() {

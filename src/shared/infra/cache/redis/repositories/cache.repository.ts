@@ -1,6 +1,6 @@
 import { ClassConstructor } from 'class-transformer';
-import { MetaInputVO } from '../../../shared/domain/value-objects/meta-input.vo';
-import { env } from '../../../config/env';
+import { MetaInputVO } from '../../../../../core/value-objects/meta-input.vo';
+import { env } from '../../../../../config/env';
 import Redis from 'ioredis';
 
 export abstract class CacheRepository<V = unknown> {

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { HealthStatus } from '../../../../../shared/types/health-status.type';
+import { HealthStatus } from '../../../../../core/types/health-status.type';
 
 export class ResponseHealthDTO {
   @Expose()

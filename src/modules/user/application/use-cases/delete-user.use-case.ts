@@ -6,7 +6,7 @@ import {
 import { AbstractUserWriteRepository } from '../../../../modules/user/domain/repositories/user.write-repository';
 import { AbstractUserReadRepository } from '../../../../modules/user/domain/repositories/user.read-repository';
 import { DeleteUserInput } from './implements/delete-user.input';
-import { Role } from '../../../../shared/types/role.type';
+import { Role } from '../../../../core/enum/role.enum';
 
 @Injectable()
 export class DeleteUserUseCase {

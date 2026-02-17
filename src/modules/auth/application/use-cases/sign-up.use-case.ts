@@ -1,8 +1,8 @@
-import { ConflictException, Inject, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import { User } from '../../../user/domain/entities/user.entity';
-import { IEmailService } from '../../../mail/domain/services/email.service';
+import { AbstractEmailService } from '../../../../core/services/email.service';
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 import { AbstractUserWriteRepository } from '../../../user/domain/repositories/user.write-repository';
 import { AbstractVerificationRepository } from '../../domain/repositories/verify.repository';
@@ -10,17 +10,17 @@ import { AbstractVerificationRepository } from '../../domain/repositories/verify
 import { CreateAccountCommand } from './implements/create-account.command';
 
 import { GenerateVerificationCode } from '../../../../shared/utils/generate-verification-code.util';
-import { Email } from '../../../../shared/domain/value-objects/email.vo';
-import { Password } from '../../../../shared/domain/value-objects/password.vo';
-import { Token } from '../../../../shared/domain/value-objects/token.vo';
+import { Email } from '../../../../core/value-objects/email.vo';
+import { Password } from '../../../../core/value-objects/password.vo';
+import { Token } from '../../../../core/value-objects/token.vo';
 import { env } from '../../../../config/env';
-import { Role } from '../../../../shared/types/role.type';
-import { VerificationType } from '../../../../shared/types/verification-type.type';
+import { Role } from '../../../../core/enum/role.enum';
+import { VerificationType } from '../../../../core/enum/verification-type.enum';
 
 @Injectable()
 export class SignUpUseCase {
   constructor(
-    @Inject('IEmailService') private readonly emailService: IEmailService,
+    private readonly emailService: AbstractEmailService,
     private readonly userWriteRepository: AbstractUserWriteRepository,
     private readonly userReadRepository: AbstractUserReadRepository,
     private readonly verificationTokenRepository: AbstractVerificationRepository,
@@ -67,7 +67,7 @@ export class SignUpUseCase {
           <p style="color: #333333; text-decoration: none;">Olá ${user.getName()},</p>
           <p style="color: #333333; text-decoration: none;">
             Você se cadastrou no ${env.APP_NAME}. Verifique seu e-mail.
-            Você pode usar o código( ${verificationCode} ) abaixo ou clicar no botão para redefinir:
+            Você pode usar o código( ${verificationCode} ) abaixo ou clicar no botão para verificar seu e-mail:
           </p>
 
           <!-- Bloco do código -->

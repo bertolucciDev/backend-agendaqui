@@ -2,10 +2,10 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { AbstractUserWriteRepository } from '../../../../modules/user/domain/repositories/user.write-repository';
 import { ResponseAdminDTO } from '../../../../modules/user/presentation/dto/output/response-admin.dto';
 import { CreateUserInput } from './implements/create-user.input';
-import { Email } from '../../../../shared/domain/value-objects/email.vo';
+import { Email } from '../../../../core/value-objects/email.vo';
 import { User } from '../../../../modules/user/domain/entities/user.entity';
-import { Password } from '../../../../shared/domain/value-objects/password.vo';
-import { Role } from '../../../../shared/types/role.type';
+import { Password } from '../../../../core/value-objects/password.vo';
+import { Role } from '../../../../core/enum/role.enum';
 import { AbstractUserReadRepository } from '../../../../modules/user/domain/repositories/user.read-repository';
 
 @Injectable()

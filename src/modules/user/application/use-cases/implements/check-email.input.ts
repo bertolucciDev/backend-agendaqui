@@ -1,4 +1,4 @@
-import { Email } from '../../../../../shared/domain/value-objects/email.vo';
+import { Email } from '../../../../../core/value-objects/email.vo';
 
 export class CheckEmailInput {
   constructor(public readonly email: Email) {}

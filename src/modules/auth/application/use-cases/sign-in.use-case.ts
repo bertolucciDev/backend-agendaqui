@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 import { ResponseUserDTO } from '../../../user/presentation/dto/output/response-user.dto';
-import { Email } from '../../../../shared/domain/value-objects/email.vo';
+import { Email } from '../../../../core/value-objects/email.vo';
 import { LoginDTO } from '../../presentation/dto/input/login.dto';
 
 @Injectable()

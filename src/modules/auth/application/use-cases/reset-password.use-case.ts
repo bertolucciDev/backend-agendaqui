@@ -4,10 +4,10 @@ import { AbstractVerificationRepository } from '../../domain/repositories/verify
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 import { AbstractUserWriteRepository } from '../../../user/domain/repositories/user.write-repository';
 
-import { Password } from '../../../../shared/domain/value-objects/password.vo';
+import { Password } from '../../../../core/value-objects/password.vo';
 import { ResetPasswordCommand } from './implements/reset-password.command';
-import { VerifyRecoveryUseCase } from './verify-recovery.handler';
-import { VerificationType } from '../../../../shared/types/verification-type.type';
+import { VerifyRecoveryUseCase } from './verify-recovery.use-case';
+import { VerificationType } from '../../../../core/enum/verification-type.enum';
 
 @Injectable()
 export class ResetPasswordUseCase {

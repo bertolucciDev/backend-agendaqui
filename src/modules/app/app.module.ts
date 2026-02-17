@@ -8,7 +8,6 @@ import { UserModule } from '../user/user.module';
 import { CacheHealthRepository } from './domain/repositories/cache-health.repository';
 import { RedisHealthRepository } from './infra/repositories/redis-health.provider';
 import { AuthModule } from '../auth/auth.module';
-import { EmailModule } from '../mail/email.module';
 // import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
@@ -19,7 +18,6 @@ import { EmailModule } from '../mail/email.module';
     SharedModule,
     UserModule,
     AuthModule,
-    EmailModule,
   ],
   controllers: [CheckApiHealthController],
   providers: [

@@ -9,7 +9,12 @@ export class Password {
 
   // creates the password already hashed
   static async create(plain: string): Promise<Password> {
-    if (!plain || typeof plain !== 'string' || plain.length < 6) {
+    if (
+      !plain ||
+      typeof plain !== 'string' ||
+      plain.length < 6 ||
+      plain.length > 32
+    ) {
       throw new Error('Password must be at least 6 characters');
     }
 

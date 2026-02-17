@@ -9,7 +9,7 @@ import {
 import { LoginDTO } from '../dto/input/login.dto';
 import { SignResponseDTO } from '../dto/output/sign-response.dto';
 import { SignInUseCase } from '../../application/use-cases/sign-in.use-case';
-import { CreateUserSessionUseCase } from '../../application/use-cases/create-user-session.handler';
+import { CreateUserSessionUseCase } from '../../application/use-cases/create-user-session.use-case';
 
 @ApiTags('Auth')
 @Controller('auth')

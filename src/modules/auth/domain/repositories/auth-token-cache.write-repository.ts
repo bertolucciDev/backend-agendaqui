@@ -1,4 +1,4 @@
-import { Token } from '../../../../shared/domain/value-objects/token.vo';
+import { Token } from '../../../../core/value-objects/token.vo';
 
 export interface SessionData {
   refreshToken: Token;

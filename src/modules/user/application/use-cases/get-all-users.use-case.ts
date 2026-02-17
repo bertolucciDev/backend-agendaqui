@@ -3,7 +3,7 @@ import { AbstractUserReadRepository } from '../../../../modules/user/domain/repo
 import { UserMapper } from '../mappers/user.mapper';
 import { ResponseAdminDTO } from '../../../../modules/user/presentation/dto/output/response-admin.dto';
 import { GetAllUsersInput } from './implements/get-all-users.input';
-import { Role } from '../../../../shared/types/role.type';
+import { Role } from '../../../../core/enum/role.enum';
 
 @Injectable()
 export class GetAllUsersUseCase {

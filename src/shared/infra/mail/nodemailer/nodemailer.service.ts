@@ -7,11 +7,11 @@ import {
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
-import { IEmailService } from '../../../../modules/mail/domain/services/email.service';
-import { SendEmailVO } from '../../../../shared/domain/value-objects/send-email';
+import { AbstractEmailService } from '../../../../core/services/email.service';
+import { SendEmailInput } from '../../../../core/services/email.service';
 
 @Injectable()
-export class NodemailerEmailService implements IEmailService {
+export class NodemailerEmailService implements AbstractEmailService {
   private readonly logger = new Logger(NodemailerEmailService.name);
   private transporter: nodemailer.Transporter;
 
@@ -30,8 +30,8 @@ export class NodemailerEmailService implements IEmailService {
     });
   }
 
-  async sendEmail(email: SendEmailVO): Promise<void> {
-    const { to, subject, html, text } = email;
+  async sendEmail(input: SendEmailInput): Promise<void> {
+    const { to, subject, html, text } = input;
 
     if (!to || to.length === 0) {
       throw new BadRequestException('No recipients defined');

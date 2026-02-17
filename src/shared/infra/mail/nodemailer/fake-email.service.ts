@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { IEmailService } from '../../domain/services/email.service';
-import { SendEmailVO } from '../../../../shared/domain/value-objects/send-email';
+import { AbstractEmailService } from '../../../../core/services/email.service';
+import { SendEmailInput } from '../../../../core/services/email.service';
 
 @Injectable()
-export class FakeEmailService implements IEmailService {
+export class FakeEmailService implements AbstractEmailService {
   private tokens: Record<string, string> = {};
   private codes: Record<string, string> = {};
 
-  async sendEmail(email: SendEmailVO): Promise<void> {
-    const { to, subject, html } = email;
+  async sendEmail(input: SendEmailInput): Promise<void> {
+    const { to, subject, html } = input;
     const recipients = Array.isArray(to) ? to : [to];
 
     const urlMatch = html.match(/https?:\/\/[^\s"]+/);

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { AbstractVerificationRepository } from '../../../../../modules/auth/domain/repositories/verify.repository';
 import { PrismaService } from '../../../../../shared/infra/database/prisma/prisma.service';
-import { Verification } from '../../../../../shared/domain/value-objects/verify.vo';
-import { VerificationType as CustomVerificationType } from '../../../../../shared/types/verification-type.type';
+import { Verification } from '../../../../../core/value-objects/verify.vo';
+import { VerificationType as CustomVerificationType } from '../../../../../core/enum/verification-type.enum';
 
 @Injectable()
 export class PrismaPasswordResetTokenRepository implements AbstractVerificationRepository {

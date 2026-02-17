@@ -1,4 +1,4 @@
-import { VerificationType } from '../../../../generated/prisma/enums';
+import { VerificationType } from '../../../generated/prisma/enums';
 
 export type Verification = {
   id: string;

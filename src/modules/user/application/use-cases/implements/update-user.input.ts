@@ -1,5 +1,5 @@
 import { UpdateUserDTO } from '../../../presentation/dto/input/update-user.dto';
-import { Role } from '../../../../../shared/types/role.type';
+import { Role } from '../../../../../core/enum/role.enum';
 
 export class UpdateUserInput {
   constructor(

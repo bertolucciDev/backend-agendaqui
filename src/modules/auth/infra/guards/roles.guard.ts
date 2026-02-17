@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
-import { Role } from '../../../../shared/types/role.type';
+import { Role } from '../../../../core/enum/role.enum';
 import { JwtUser } from '../../domain/repositories/jwt.repository';
 
 @Injectable()

@@ -8,9 +8,9 @@ import { AbstractUserWriteRepository } from '../../../../modules/user/domain/rep
 import { AbstractUserReadRepository } from '../../../../modules/user/domain/repositories/user.read-repository';
 import { UpdateUserInput } from './implements/update-user.input';
 import { UpdateUserDTO } from '../../presentation/dto/input/update-user.dto';
-import { Email } from '../../../../shared/domain/value-objects/email.vo';
-import { Password } from '../../../../shared/domain/value-objects/password.vo';
-import { Role } from '../../../../shared/types/role.type';
+import { Email } from '../../../../core/value-objects/email.vo';
+import { Password } from '../../../../core/value-objects/password.vo';
+import { Role } from '../../../../core/enum/role.enum';
 
 @Injectable()
 export class UpdateUserUseCase {
