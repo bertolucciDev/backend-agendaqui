@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
 import { env } from '../src/config/env';
+import { apiReference } from 'node_modules/@scalar/nestjs-api-reference/dist/index.cjs';
 
 let cachedApp;
 
@@ -39,15 +40,24 @@ async function bootstrap() {
       )
       .build();
 
-    const document = () => SwaggerModule.createDocument(app, config);
+    const document = SwaggerModule.createDocument(app, config);
 
-    SwaggerModule.setup('docs', app, document, {
-      customCssUrl: 'https://unpkg.com/swagger-ui-dist/swagger-ui.css',
-      customJs: [
-        'https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js',
-        'https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js',
-      ],
+    server.get('/openapi.json', (req, res) => {
+      res.json(document);
     });
+
+    if (env.APP_ENV !== 'prod') {
+      // remove o SwaggerModule.setup(...)
+      server.use(
+        '/docs',
+        apiReference({
+          spec: {
+            url: '/openapi.json',
+          },
+          theme: 'elysiajs',
+        }),
+      );
+    }
 
     await app.init();
 
