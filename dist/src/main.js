@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const platform_fastify_1 = require("@nestjs/platform-fastify");
 const common_1 = require("@nestjs/common");
-const env_1 = require("./config/env");
+const env_1 = require("../src/config/env");
 const app_module_1 = require("./modules/app/app.module");
 const swagger_1 = require("@nestjs/swagger");
 const multipart_1 = require("@fastify/multipart");
