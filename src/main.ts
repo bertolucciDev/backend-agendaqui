@@ -54,7 +54,7 @@ async function bootstrap() {
     const document = () => SwaggerModule.createDocument(app, config);
     app.use(
       '/docs',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
       apiReference({
         content: document,
         withFastify: true,
@@ -77,9 +77,7 @@ async function bootstrap() {
   // await redisIoAdapter.connectToRedis();
   // app.useWebSocketAdapter(redisIoAdapter);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await app.register(fastifyMultipart);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   await app.register(fastifyCors, {
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],

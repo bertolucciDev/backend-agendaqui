@@ -3,6 +3,7 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
+import { env } from '../src/config/env';
 
 let cachedApp;
 
@@ -10,16 +11,22 @@ async function bootstrap() {
   if (!cachedApp) {
     const server = express();
 
-    const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+    const app = await NestFactory.create(
+      AppModule,
+      new ExpressAdapter(server),
+      {
+        bufferLogs: true,
+      },
+    );
 
     app.enableCors({
       origin: ['http://localhost:5173', 'https://agendaqui-web.vercel.app'],
       credentials: true,
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     });
 
     const config = new DocumentBuilder()
-      .setTitle(process.env.APP_NAME!)
+      .setTitle(env.APP_NAME)
       .setDescription('API Documentation')
       .setVersion('1.0')
       .addBearerAuth(
@@ -31,6 +38,7 @@ async function bootstrap() {
         'access-token',
       )
       .build();
+
     const document = () => SwaggerModule.createDocument(app, config);
 
     SwaggerModule.setup('docs', app, document, {
