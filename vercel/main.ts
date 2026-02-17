@@ -39,9 +39,15 @@ async function bootstrap() {
       )
       .build();
 
-    const document = SwaggerModule.createDocument(app, config);
+    const document = () => SwaggerModule.createDocument(app, config);
 
-    SwaggerModule.setup('docs', app, document);
+    SwaggerModule.setup('docs', app, document, {
+      customCssUrl: 'https://unpkg.com/swagger-ui-dist/swagger-ui.css',
+      customJs: [
+        'https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js',
+        'https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js',
+      ],
+    });
 
     await app.init();
 
