@@ -3,7 +3,7 @@ import Redis from 'ioredis';
 
 import { AbstractAuthTokenCacheWriteRepository } from '../../domain/repositories/auth-token-cache.write-repository';
 import { AbstractAuthTokenCacheReadRepository } from '../../domain/repositories/auth-token-cache.read-repository';
-import { LogoutUserCommand } from './implements/logout-user.command';
+import { LogoutDTO } from '../../presentation/dto/input/logout.dto';
 import { REDIS_CLIENT } from '../../../../shared/infra/config/redis.config';
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 
@@ -16,11 +16,11 @@ export class LogoutUserUseCase {
     private readonly userReadRepository: AbstractUserReadRepository,
   ) {}
 
-  async execute(command: LogoutUserCommand) {
-    const { userId, refreshToken } = command;
-    const lockKey = `logout-lock:${command.refreshToken}`;
+  async execute(dto: LogoutDTO) {
+    const { userId, refreshToken } = dto;
+    const lockKey = `logout-lock:${dto.refreshToken}`;
 
-    const user = await this.userReadRepository.findById(command.userId);
+    const user = await this.userReadRepository.findById(dto.userId);
     if (!user) {
       return false;
     }

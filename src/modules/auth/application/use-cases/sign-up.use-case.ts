@@ -7,7 +7,7 @@ import { AbstractUserReadRepository } from '../../../user/domain/repositories/us
 import { AbstractUserWriteRepository } from '../../../user/domain/repositories/user.write-repository';
 import { AbstractVerificationRepository } from '../../domain/repositories/verify.repository';
 
-import { CreateAccountCommand } from './implements/create-account.command';
+import { RegisterDTO } from '../../presentation/dto/input/register.dto';
 
 import { GenerateVerificationCode } from '../../../../shared/utils/generate-verification-code.util';
 import { Email } from '../../../../core/value-objects/email.vo';
@@ -26,9 +26,9 @@ export class SignUpUseCase {
     private readonly verificationTokenRepository: AbstractVerificationRepository,
   ) {}
 
-  async execute(command: CreateAccountCommand): Promise<string> {
-    const email = new Email(command.email);
-    const password = await Password.create(command.password);
+  async execute(dto: RegisterDTO): Promise<string> {
+    const email = new Email(dto.email);
+    const password = await Password.create(dto.password);
 
     const existingUser = await this.userReadRepository.findByEmail(email);
     if (existingUser) {
@@ -36,7 +36,7 @@ export class SignUpUseCase {
     }
 
     const user = User.create({
-      name: command.name,
+      name: dto.name,
       email,
       password,
       role: Role.USER,

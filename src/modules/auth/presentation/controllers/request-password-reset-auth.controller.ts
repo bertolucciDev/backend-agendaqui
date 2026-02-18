@@ -6,7 +6,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { RequestPasswordResetCommand } from '../../application/use-cases/implements/request-password-reset.command';
 import { RequestPasswordResetDTO } from '../dto/input/request-password-reset.dto';
 import { MessageResponseDTO } from '../../../../core/presentation/dto/message-response.dto';
 import { RequestPasswordResetUseCase } from '../../application/use-cases/request-password-reset.use-case';
@@ -30,9 +29,7 @@ export class RequestPasswordResetAuthController {
   async forgotPassword(
     @Body() dto: RequestPasswordResetDTO,
   ): Promise<MessageResponseDTO> {
-    await this.requestPasswordReset.execute(
-      new RequestPasswordResetCommand(dto.email),
-    );
+    await this.requestPasswordReset.execute(dto.email);
     return new MessageResponseDTO('Password reset email sent successfully.');
   }
 }

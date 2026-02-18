@@ -8,8 +8,6 @@ import {
 } from '@nestjs/swagger';
 import { VerifyEmailDTO } from '../dto/input/verify-email';
 import { MessageResponseDTO } from '../../../../core/presentation/dto/message-response.dto';
-import { VerificationType } from '../../../../core/enum/verification-type.enum';
-import { VerifyEmailCommand } from '../../application/use-cases/implements/verify-email.command';
 import { VerifyEmailUseCase } from '../../application/use-cases/verify-email.use-case';
 
 @ApiTags('Auth')
@@ -26,13 +24,11 @@ export class VerifyEmailAuthController {
   })
   @ApiUnauthorizedResponse({ description: 'Invalid or expired token' })
   async verifyEmail(@Body() dto: VerifyEmailDTO): Promise<MessageResponseDTO> {
-    await this.verifyEmailUseCase.execute(
-      new VerifyEmailCommand({
-        type: VerificationType.VERIFY_EMAIL,
-        token: dto.token,
-        code: dto.code,
-      }),
-    );
+    await this.verifyEmailUseCase.execute({
+      token: dto.token,
+      code: dto.code,
+    });
+
     return new MessageResponseDTO('Email verified successfully.');
   }
 }

@@ -7,7 +7,7 @@ import Redis from 'ioredis';
 
 @Injectable()
 export class RedisCacheRepository<V extends object> extends CacheRepository<V> {
-  private systemName = 'Task Manager';
+  private systemName = 'Agendaqui';
 
   constructor(
     @Inject(REDIS_CLIENT) client: Redis,

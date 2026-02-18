@@ -6,7 +6,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { CreateAccountCommand } from '../../application/use-cases/implements/create-account.command';
 import { RegisterDTO } from '../dto/input/register.dto';
 import { MessageResponseDTO } from '../../../../core/presentation/dto/message-response.dto';
 import { SignUpUseCase } from '../../application/use-cases/sign-up.use-case';
@@ -25,9 +24,7 @@ export class SignUpAuthController {
   })
   @ApiUnauthorizedResponse({ description: 'Invalid input data' })
   async signUp(@Body() dto: RegisterDTO): Promise<MessageResponseDTO> {
-    await this.signUpUseCase.execute(
-      new CreateAccountCommand(dto.name, dto.email, dto.password),
-    );
+    await this.signUpUseCase.execute(dto);
 
     return new MessageResponseDTO(
       'User registered successfully. Please verify your email.',

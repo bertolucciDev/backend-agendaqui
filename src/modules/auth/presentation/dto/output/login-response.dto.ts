@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { ResponseUserDTO } from '../../../../../modules/user/presentation/dto/output/response-user.dto';
+import { UserResponseDTO } from '../../../../user/presentation/dto/output/user-response.dto';
 
-export class SignResponseDTO {
+export class LoginResponseDTO {
   @Expose()
-  @ApiProperty({ type: () => ResponseUserDTO })
-  user: ResponseUserDTO;
+  @ApiProperty({ type: () => UserResponseDTO })
+  user: UserResponseDTO;
 
   @Expose()
   @ApiProperty({
@@ -19,7 +19,7 @@ export class SignResponseDTO {
   refreshToken: string;
 
   constructor(
-    user: ResponseUserDTO,
+    user: UserResponseDTO,
     accessToken: string,
     refreshToken: string,
   ) {

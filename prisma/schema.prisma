@@ -43,6 +43,6 @@ enum Role {
 }
 
 enum VerificationType {
-  RESET_PASSWORD @map("reset_password")
+  PASSWORD_RESET @map("password_reset")
   VERIFY_EMAIL   @map("verify_email")
 }

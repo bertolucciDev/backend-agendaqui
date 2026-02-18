@@ -6,7 +6,6 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { LogoutUserCommand } from '../../application/use-cases/implements/logout-user.command';
 import { LogoutDTO } from '../dto/input/logout.dto';
 import { MessageResponseDTO } from '../../../../core/presentation/dto/message-response.dto';
 import { LogoutUserUseCase } from '../../application/use-cases/logout-user.use-case';
@@ -25,9 +24,7 @@ export class LogoutAuthController {
   })
   @ApiUnauthorizedResponse({ description: 'Invalid token or user mismatch' })
   async logoutSession(@Body() dto: LogoutDTO): Promise<MessageResponseDTO> {
-    await this.logout.execute(
-      new LogoutUserCommand(dto.userId, dto.refreshToken),
-    );
+    await this.logout.execute(dto);
     return new MessageResponseDTO('Logout successful.');
   }
 }
