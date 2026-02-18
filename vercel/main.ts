@@ -4,7 +4,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
 import { env } from '../src/config/env';
-import { apiReference } from '@scalar/nestjs-api-reference';
 
 let cachedApp;
 
@@ -30,17 +29,25 @@ async function bootstrap() {
       .setTitle(env.APP_NAME)
       .setDescription('API Documentation')
       .setVersion('1.0')
-      .addBearerAuth()
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+        'access-token',
+      )
       .build();
 
-    const document = SwaggerModule.createDocument(app, config);
+    const document = () => SwaggerModule.createDocument(app, config);
 
-    app.use(
-      '/docs',
-      apiReference({
-        content: document,
-      }),
-    );
+    SwaggerModule.setup('docs', app, document, {
+      customCssUrl: 'https://unpkg.com/swagger-ui-dist/swagger-ui.css',
+      customJs: [
+        'https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js',
+        'https://unpkg.com/swagger-ui-dist/swagger-ui-standalone-preset.js',
+      ],
+    });
 
     await app.init();
 
