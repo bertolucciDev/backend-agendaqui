@@ -18,7 +18,7 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 
 export const VerificationType = {
-  RESET_PASSWORD: 'RESET_PASSWORD',
+  PASSWORD_RESET: 'PASSWORD_RESET',
   VERIFY_EMAIL: 'VERIFY_EMAIL'
 } as const
 

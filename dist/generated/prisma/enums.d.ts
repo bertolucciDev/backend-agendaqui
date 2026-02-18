@@ -4,7 +4,7 @@ export declare const Role: {
 };
 export type Role = (typeof Role)[keyof typeof Role];
 export declare const VerificationType: {
-    readonly RESET_PASSWORD: "RESET_PASSWORD";
+    readonly PASSWORD_RESET: "PASSWORD_RESET";
     readonly VERIFY_EMAIL: "VERIFY_EMAIL";
 };
 export type VerificationType = (typeof VerificationType)[keyof typeof VerificationType];

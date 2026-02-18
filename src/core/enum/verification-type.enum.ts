@@ -1,4 +1,4 @@
 export enum VerificationType {
-  RESET_PASSWORD = 'RESET_PASSWORD',
+  PASSWORD_RESET = 'PASSWORD_RESET',
   VERIFY_EMAIL = 'VERIFY_EMAIL',
 }

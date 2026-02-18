@@ -16,34 +16,32 @@ import { PrismaPasswordResetTokenRepository } from '../../modules/auth/infra/rep
 
 import { RequestPasswordResetUseCase } from './application/use-cases/request-password-reset.use-case';
 import { LogoutUserUseCase } from './application/use-cases/logout-user.use-case';
-import { SignInUseCase } from './application/use-cases/sign-in.use-case';
-import { CreateUserSessionUseCase } from './application/use-cases/create-user-session.use-case';
-import { VerifyRecoveryUseCase } from './application/use-cases/verify-recovery.use-case';
+import { LoginUseCase } from './application/use-cases/login.use-case';
 import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
-import { ResetPasswordUseCase } from './application/use-cases/reset-password.use-case';
+import { PasswordResetUseCase } from './application/use-cases/password-reset.use-case';
 import { VerifyEmailUseCase } from './application/use-cases/verify-email.use-case';
 
 import { JwtStrategy } from '../../modules/auth/infra/strategies/jwt-strategy';
 import { parseTimeToSeconds } from '../../shared/utils/time.util';
 
-import { SignInAuthController } from './presentation/controllers/sign-in-auth.controller';
+import { LoginAuthController } from './presentation/controllers/login-auth.controller';
 import { SignUpAuthController } from './presentation/controllers/sign-up-auth.controller';
 import { VerifyEmailAuthController } from './presentation/controllers/verify-email-auth.controller';
 import { LogoutAuthController } from './presentation/controllers/logout-auth.controller';
 import { RequestPasswordResetAuthController } from './presentation/controllers/request-password-reset-auth.controller';
-// import { VerifyResetPasswordAuthController } from './presentation/controllers/reset-password-auth.controller';
+// import { VerifyRecoveryUseCase } from './application/use-cases/verify-recovery.use-case';
+import { PasswordResetAuthController } from './presentation/controllers/reset-password-auth.controller';
 
 const WriteUseCases = [
   SignUpUseCase,
-  CreateUserSessionUseCase,
   LogoutUserUseCase,
   RequestPasswordResetUseCase,
-  ResetPasswordUseCase,
+  PasswordResetUseCase,
   VerifyEmailUseCase,
-  VerifyRecoveryUseCase,
+  // VerifyRecoveryUseCase,
 ];
 
-const ReadUseCases = [SignInUseCase];
+const ReadUseCases = [LoginUseCase];
 
 @Module({
   imports: [
@@ -54,11 +52,11 @@ const ReadUseCases = [SignInUseCase];
     CacheModule,
   ],
   controllers: [
-    SignInAuthController,
+    LoginAuthController,
     SignUpAuthController,
     VerifyEmailAuthController,
+    PasswordResetAuthController,
     RequestPasswordResetAuthController,
-    // VerifyResetPasswordAuthController,
     LogoutAuthController,
   ],
   providers: [
@@ -82,10 +80,6 @@ const ReadUseCases = [SignInUseCase];
     {
       provide: AbstractAuthTokenCacheWriteRepository,
       useClass: RedisAuthTokenCommandCacheRepository,
-    },
-    {
-      provide: AbstractVerificationRepository,
-      useClass: PrismaPasswordResetTokenRepository,
     },
     ...WriteUseCases,
     ...ReadUseCases,

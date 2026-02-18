@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AbstractUserReadRepository } from '../../../../modules/user/domain/repositories/user.read-repository';
-import { ResponseUserDTO } from '../../presentation/dto/output/response-user.dto';
+import { UserResponseDTO } from '../../presentation/dto/output/user-response.dto';
 import { ResponseAdminDTO } from '../../../../modules/user/presentation/dto/output/response-admin.dto';
 import { GetUserByIdInput } from './implements/get-user-by-id.query';
 import { Role } from '../../../../core/enum/role.enum';
@@ -13,7 +13,7 @@ export class GetUserByIdUseCase {
 
   async execute(
     query: GetUserByIdInput,
-  ): Promise<ResponseUserDTO | ResponseAdminDTO> {
+  ): Promise<UserResponseDTO | ResponseAdminDTO> {
     const requester = await this.userReadRepository.findById(query.requesterId);
     if (!requester) {
       throw new NotFoundException('Requester not found');
@@ -36,7 +36,7 @@ export class GetUserByIdUseCase {
     const dto =
       query.requesterRole === Role.ADMIN
         ? new ResponseAdminDTO(targetUser)
-        : new ResponseUserDTO(targetUser);
+        : new UserResponseDTO(targetUser);
 
     return dto;
   }

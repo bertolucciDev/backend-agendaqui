@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsEmail, IsEnum, IsString, IsUUID } from 'class-validator';
 
-import { User } from '../../../../../modules/user/domain/entities/user.entity';
+import { User } from '../../../domain/entities/user.entity';
 import { Role } from '../../../../../core/enum/role.enum';
 
-export class ResponseUserDTO {
+export class UserResponseDTO {
   @IsUUID()
   @Expose()
   @ApiProperty({

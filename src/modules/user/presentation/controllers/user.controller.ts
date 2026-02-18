@@ -26,7 +26,7 @@ import { Role } from '../../../../core/enum/role.enum';
 import { DeleteUserInput } from '../../application/use-cases/implements/delete-user.input';
 import { UpdateUserInput } from '../../application/use-cases/implements/update-user.input';
 import { GetUserByIdInput } from '../../application/use-cases/implements/get-user-by-id.query';
-import { ResponseUserDTO } from '../dto/output/response-user.dto';
+import { UserResponseDTO } from '../dto/output/user-response.dto';
 import { UpdateUserDTO } from '../dto/input/update-user.dto';
 import { DeleteUserDTO } from '../dto/input/delete-user.dto';
 import { MessageResponseDTO } from '../../../../core/presentation/dto/message-response.dto';
@@ -50,13 +50,13 @@ export class UserController {
   @ApiOperation({ summary: 'Get the authenticated user profile' })
   @ApiOkResponse({
     description: 'Returns the profile of the authenticated user',
-    type: ResponseUserDTO,
+    type: UserResponseDTO,
   })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiUnauthorizedResponse({ description: 'Missing or invalid token' })
   async getProfile(
     @Request() req: { user: JwtUser },
-  ): Promise<ResponseUserDTO> {
+  ): Promise<UserResponseDTO> {
     const { sub: requesterId, role: requesterRole } = req.user;
 
     const query = new GetUserByIdInput(requesterId, requesterRole, requesterId);

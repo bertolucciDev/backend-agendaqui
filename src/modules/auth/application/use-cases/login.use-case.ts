@@ -1,33 +1,37 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
+import { UserResponseDTO } from '../../../user/presentation/dto/output/user-response.dto';
+import { Email } from '../../../../core/value-objects/email.vo';
+import { LoginDTO } from '../../presentation/dto/input/login.dto';
+import { AbstractAuthTokenCacheWriteRepository } from '../../domain/repositories/auth-token-cache.write-repository';
 import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'crypto';
-import { env } from '../../../../config/env';
-
-import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
-import { AbstractAuthTokenCacheWriteRepository } from '../../domain/repositories/auth-token-cache.write-repository';
-
-import { SignResponseDTO } from '../../presentation/dto/output/sign-response.dto';
-import { ResponseUserDTO } from '../../../user/presentation/dto/output/response-user.dto';
-
 import { Token } from '../../../../core/value-objects/token.vo';
-import { Email } from '../../../../core/value-objects/email.vo';
+import { env } from '../../../../config/env';
 import { parseTimeToSeconds } from '../../../../shared/utils/time.util';
+import { LoginResponseDTO } from '../../presentation/dto/output/login-response.dto';
 
 @Injectable()
-export class CreateUserSessionUseCase {
+export class LoginUseCase {
   constructor(
     private readonly jwtService: JwtService,
     private readonly authTokenCacheWriteRepository: AbstractAuthTokenCacheWriteRepository,
     private readonly userReadRepository: AbstractUserReadRepository,
   ) {}
 
-  async execute(dto: ResponseUserDTO): Promise<SignResponseDTO> {
+  async execute(dto: LoginDTO): Promise<LoginResponseDTO> {
     const email = new Email(dto.email);
-
     const existingUser = await this.userReadRepository.findByEmail(email);
+
     if (!existingUser) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
+    const valid = await existingUser.comparePassword(dto.password);
+    if (!valid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
     if (!existingUser.isUserVerified()) {
       throw new UnauthorizedException('Email not verified');
     }
@@ -64,8 +68,8 @@ export class CreateUserSessionUseCase {
       ),
     );
 
-    return new SignResponseDTO(
-      new ResponseUserDTO(existingUser),
+    return new LoginResponseDTO(
+      new UserResponseDTO(existingUser),
       accessToken.getValue(),
       refreshToken.getValue(),
     );

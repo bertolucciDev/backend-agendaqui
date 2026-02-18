@@ -5,26 +5,49 @@ import { AbstractUserReadRepository } from '../../../user/domain/repositories/us
 import { AbstractUserWriteRepository } from '../../../user/domain/repositories/user.write-repository';
 
 import { Password } from '../../../../core/value-objects/password.vo';
-import { ResetPasswordCommand } from './implements/reset-password.command';
-import { VerifyRecoveryUseCase } from './verify-recovery.use-case';
 import { VerificationType } from '../../../../core/enum/verification-type.enum';
+import { PasswordResetDTO } from '../../presentation/dto/input/password-reset.dto';
 
 @Injectable()
-export class ResetPasswordUseCase {
+export class PasswordResetUseCase {
   constructor(
     private readonly userWriteRepository: AbstractUserWriteRepository,
     private readonly userReadRepository: AbstractUserReadRepository,
     private readonly verificationRepository: AbstractVerificationRepository,
-    private readonly verifyRecovery: VerifyRecoveryUseCase,
   ) {}
 
-  async execute(command: ResetPasswordCommand): Promise<void> {
-    const { password, data } = command;
-    const record = await this.verifyRecovery.execute({
-      type: VerificationType.RESET_PASSWORD,
-      token: data.token,
-      code: data.code,
-    });
+  async execute(dto: PasswordResetDTO): Promise<void> {
+    const { password, token, code } = dto;
+
+    if (!token && !code) {
+      throw new HttpException(
+        'Token or code is required',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const record = token
+      ? await this.verificationRepository.findByToken(token)
+      : await this.verificationRepository.findByCode(code!);
+
+    if (!record) {
+      throw new HttpException(
+        'Invalid or expired verification record',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    if (record.isUsed) {
+      const message =
+        record.type === VerificationType.PASSWORD_RESET
+          ? 'Reset link or code already used'
+          : 'Email already verified';
+      throw new HttpException(message, HttpStatus.BAD_REQUEST);
+    }
+
+    if (record.expiresAt.getTime() < Date.now()) {
+      throw new HttpException('Verification expired', HttpStatus.GONE);
+    }
 
     const user = await this.userReadRepository.findById(record.userId);
     if (!user) {

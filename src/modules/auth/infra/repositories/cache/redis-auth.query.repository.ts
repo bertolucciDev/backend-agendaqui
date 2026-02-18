@@ -8,7 +8,7 @@ import Redis from 'ioredis';
 
 @Injectable()
 export class RedisAuthTokenCacheQueryRepository implements AbstractAuthTokenCacheReadRepository {
-  private systemName = 'TaskManager:Auth';
+  private systemName = 'Agendaqui:Auth';
 
   constructor(@Inject(REDIS_CLIENT) private readonly client: Redis) {}
 

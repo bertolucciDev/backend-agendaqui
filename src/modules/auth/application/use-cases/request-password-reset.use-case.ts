@@ -4,7 +4,6 @@ import { randomUUID } from 'crypto';
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 import { AbstractVerificationRepository } from '../../domain/repositories/verify.repository';
 
-import { RequestPasswordResetCommand } from './implements/request-password-reset.command';
 import { GenerateVerificationCode } from '../../../../shared/utils/generate-verification-code.util';
 import { Email } from '../../../../core/value-objects/email.vo';
 import { Token } from '../../../../core/value-objects/token.vo';
@@ -19,8 +18,8 @@ export class RequestPasswordResetUseCase {
     private readonly verificationRepository: AbstractVerificationRepository,
   ) {}
 
-  async execute(command: RequestPasswordResetCommand): Promise<void> {
-    const email = new Email(command.email);
+  async execute(emailInput: string): Promise<void> {
+    const email = new Email(emailInput);
     const existingUser = await this.userReadRepository.findByEmail(email);
     if (!existingUser) {
       return;
@@ -29,7 +28,7 @@ export class RequestPasswordResetUseCase {
     const rawToken = randomUUID();
     const verificationToken = new Token(rawToken);
     const verificationCode = GenerateVerificationCode(6);
-    const verificationType = VerificationType.RESET_PASSWORD;
+    const verificationType = VerificationType.PASSWORD_RESET;
 
     await this.verificationRepository.create({
       userId: existingUser.getId(),
