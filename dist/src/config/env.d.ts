@@ -3,6 +3,7 @@ export declare const env: {
     APP_ENV: "dev" | "prod" | "test";
     APP_PORT: number;
     APP_URL: string;
+    FRONT_URL: string;
     DATABASE_URL: string;
     CACHE_HOST: string;
     CACHE_PORT: number;

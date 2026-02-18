@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import {
   ApiBody,
   ApiOkResponse,
@@ -11,12 +11,17 @@ import { MessageResponseDTO } from '../../../../core/presentation/dto/message-re
 import { VerifyEmailUseCase } from '../../application/use-cases/verify-email.use-case';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('auth/verify-email')
 export class VerifyEmailAuthController {
   constructor(private readonly verifyEmailUseCase: VerifyEmailUseCase) {}
 
-  @Post('verify-email')
-  @ApiOperation({ summary: 'Verify user email using token or code' })
+  @Post()
+  @HttpCode(200)
+  @ApiOperation({
+    summary: 'Verify user email',
+    description:
+      'Validates the verification token or code sent to the user email after registration.',
+  })
   @ApiBody({ type: VerifyEmailDTO })
   @ApiOkResponse({
     description: 'Email verified successfully',

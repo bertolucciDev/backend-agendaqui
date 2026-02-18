@@ -7,6 +7,7 @@ exports.envSchema = zod_1.z.object({
     APP_ENV: zod_1.z.enum(['dev', 'prod', 'test']).default('dev'),
     APP_PORT: zod_1.z.coerce.number().default(3000),
     APP_URL: zod_1.z.string().default('http://localhost:3000'),
+    FRONT_URL: zod_1.z.string().default('http://localhost:5173'),
     DATABASE_URL: zod_1.z.string(),
     CACHE_HOST: zod_1.z.string(),
     CACHE_PORT: zod_1.z.coerce.number(),

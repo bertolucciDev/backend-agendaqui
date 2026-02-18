@@ -36,6 +36,7 @@ export class VerifyEmailUseCase {
       throw new HttpException('Verification expired', HttpStatus.GONE);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
     if (record.type !== VerificationType.VERIFY_EMAIL) {
       throw new HttpException(
         'Invalid verification type for this handler',

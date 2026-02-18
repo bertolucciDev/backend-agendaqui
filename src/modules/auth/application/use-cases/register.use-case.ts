@@ -2,7 +2,6 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import { User } from '../../../user/domain/entities/user.entity';
-import { AbstractEmailService } from '../../../../core/services/email.service';
 import { AbstractUserReadRepository } from '../../../user/domain/repositories/user.read-repository';
 import { AbstractUserWriteRepository } from '../../../user/domain/repositories/user.write-repository';
 import { AbstractVerificationRepository } from '../../domain/repositories/verify.repository';
@@ -13,12 +12,14 @@ import { GenerateVerificationCode } from '../../../../shared/utils/generate-veri
 import { Email } from '../../../../core/value-objects/email.vo';
 import { Password } from '../../../../core/value-objects/password.vo';
 import { Token } from '../../../../core/value-objects/token.vo';
-import { env } from '../../../../config/env';
 import { Role } from '../../../../core/enum/role.enum';
 import { VerificationType } from '../../../../core/enum/verification-type.enum';
+import { verifyEmailTemplate } from '../../../../shared/infra/mail/templates/email-verification.template';
+import { AbstractEmailService } from '../../../../core/services/email.service';
+import { env } from '../../../../config/env';
 
 @Injectable()
-export class SignUpUseCase {
+export class RegisterUseCase {
   constructor(
     private readonly emailService: AbstractEmailService,
     private readonly userWriteRepository: AbstractUserWriteRepository,
@@ -57,50 +58,20 @@ export class SignUpUseCase {
       isUsed: false,
     });
 
-    const redirect_url = `http://localhost:5173/verify-email?token=${verificationToken.getValue()}&code=${verificationCode}&type=${verificationType}`;
+    const redirect_url = `${env.FRONT_URL}/verify-email`;
+
+    const { subject, html } = verifyEmailTemplate({
+      redirect_url,
+      code: verificationCode,
+      token: verificationToken.getValue(),
+      name: user.getName(),
+      type: VerificationType.VERIFY_EMAIL,
+    });
 
     await this.emailService.sendEmail({
       to: [user.getEmailValue()],
-      subject: 'Verifique seu e-mail',
-      html: `
-        <div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333333;">
-          <p style="color: #333333; text-decoration: none;">Olá ${user.getName()},</p>
-          <p style="color: #333333; text-decoration: none;">
-            Você se cadastrou no ${env.APP_NAME}. Verifique seu e-mail.
-            Você pode usar o código( ${verificationCode} ) abaixo ou clicar no botão para verificar seu e-mail:
-          </p>
-
-          <!-- Bloco do código -->
-          <table cellspacing="0" cellpadding="0" border="0" align="center" style="margin: 20px 0;">
-            <tr>
-              <td align="center">
-                <p style="font-size: 24px; font-weight: bold; color: #3803f6; margin-bottom: 20px;">
-                  ${verificationCode}
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td align="center" bgcolor="#3803f6" style="border-radius: 8px;">
-                <a href="${redirect_url}"
-                  target="_blank"
-                  style="font-size: 16px;
-                        font-weight: bold;
-                        font-family: Arial, sans-serif;
-                        color: #ffffff;
-                        text-decoration: none;
-                        padding: 14px 28px;
-                        display: inline-block;">
-                  Clique aqui para verificar
-                </a>
-              </td>
-            </tr>
-          </table>
-
-          <p style="margin-top: 20px; color: #333333; text-decoration: none; font-size: 16px; line-height: 1.5;">
-            Se você não se cadastrou na nossa plataforma, pode ignorar este e-mail.
-          </p>
-        </div>
-      `,
+      subject,
+      html,
     });
 
     return 'Registration successful';
