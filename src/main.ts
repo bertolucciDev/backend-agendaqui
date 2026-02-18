@@ -46,6 +46,7 @@ async function bootstrap() {
     .setDescription(`Documentação oficial da API ${env.APP_NAME}.`)
     .setVersion('1.0')
     .addBearerAuth()
+    .addTag('health')
     .addTag('auth')
     .addTag('user')
     .build();

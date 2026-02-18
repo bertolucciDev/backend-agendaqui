@@ -9,6 +9,8 @@ import { Email } from '../../../../core/value-objects/email.vo';
 import { Token } from '../../../../core/value-objects/token.vo';
 import { VerificationType } from '../../../../core/enum/verification-type.enum';
 import { AbstractEmailService } from '../../../../core/services/email.service';
+import { env } from '../../../../config/env';
+import { ResetPasswordTemplate } from '../../../../shared/infra/mail/templates/reset-password.template';
 
 @Injectable()
 export class RequestPasswordResetUseCase {
@@ -39,46 +41,20 @@ export class RequestPasswordResetUseCase {
       isUsed: false,
     });
 
-    const resetLink = `http://localhost:5173/step1?token=${verificationToken.getValue()}&code=${verificationCode}&type=${verificationType}`;
+    const redirect_url = `${env.FRONT_URL}/step1`;
+
+    const { subject, html } = ResetPasswordTemplate({
+      redirect_url,
+      code: verificationCode,
+      token: verificationToken.getValue(),
+      name: existingUser.getName(),
+      type: VerificationType.PASSWORD_RESET,
+    });
 
     await this.emailService.sendEmail({
       to: [existingUser.getEmailValue()],
-      subject: 'Recuperação de senha',
-      html: `
-        <div style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; line-height: 1.5;">
-        <p>Olá ${existingUser.getName()},</p>
-        <p>Você solicitou a recuperação da sua senha. Clique no botão abaixo:</p>
-
-        <table cellspacing="0" cellpadding="0" border="0" align="center" style="margin: 20px 0;">
-          <tr>
-            <td align="center">
-              <p style="font-size: 24px; font-weight: bold; color: #3803f6; margin-bottom: 20px;">
-                ${verificationCode}
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td align="center" bgcolor="#3803f6" style="border-radius: 8px;">
-              <a href="${resetLink}"
-                target="_blank"
-                style="font-size: 16px;
-                        font-weight: bold;
-                        font-family: Arial, sans-serif;
-                        color: #ffffff;
-                        text-decoration: none;
-                        padding: 14px 28px;
-                        display: inline-block;">
-                Redefinir Senha
-              </a>
-            </td>
-          </tr>
-        </table>
-
-        <p style="color: #333333; text-decoration: none; margin-top: 20px;">
-          Se você não solicitou a redefinição, pode ignorar este e-mail.
-        </p>
-      </div>
-    `,
+      subject,
+      html,
     });
   }
 }

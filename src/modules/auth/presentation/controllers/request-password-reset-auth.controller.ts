@@ -11,18 +11,23 @@ import { MessageResponseDTO } from '../../../../core/presentation/dto/message-re
 import { RequestPasswordResetUseCase } from '../../application/use-cases/request-password-reset.use-case';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('auth/request-password-reset')
 export class RequestPasswordResetAuthController {
   constructor(
     private readonly requestPasswordReset: RequestPasswordResetUseCase,
   ) {}
 
-  @Post('request-password-reset')
+  @Post()
   @HttpCode(200)
-  @ApiOperation({ summary: 'Request a password reset email' })
+  @ApiOperation({
+    summary: 'Request password reset',
+    description:
+      'Sends a password reset link or code to the user email if the account exists.',
+  })
   @ApiBody({ type: RequestPasswordResetDTO })
   @ApiOkResponse({
-    description: 'Password reset email sent',
+    description:
+      'If the email is registered, a password reset link has been sent.',
     type: MessageResponseDTO,
   })
   @ApiUnauthorizedResponse({ description: 'Invalid email' })
@@ -30,6 +35,8 @@ export class RequestPasswordResetAuthController {
     @Body() dto: RequestPasswordResetDTO,
   ): Promise<MessageResponseDTO> {
     await this.requestPasswordReset.execute(dto.email);
-    return new MessageResponseDTO('Password reset email sent successfully.');
+    return new MessageResponseDTO(
+      'If the email is registered, a password reset link has been sent.',
+    );
   }
 }

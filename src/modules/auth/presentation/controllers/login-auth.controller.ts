@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import {
   ApiBody,
   ApiOkResponse,
@@ -16,10 +16,15 @@ export class LoginAuthController {
   constructor(private readonly loginUseCase: LoginUseCase) {}
 
   @Post()
-  @ApiOperation({ summary: 'User login' })
+  @HttpCode(200)
+  @ApiOperation({
+    summary: 'Login user',
+    description:
+      'Authenticates the user and returns essential profile data along with access and refresh tokens.',
+  })
   @ApiBody({ type: LoginDTO })
   @ApiOkResponse({
-    description: 'Login successful',
+    description: 'Login successful.',
     type: LoginResponseDTO,
   })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })

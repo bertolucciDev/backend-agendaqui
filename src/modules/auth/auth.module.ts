@@ -17,7 +17,7 @@ import { PrismaPasswordResetTokenRepository } from '../../modules/auth/infra/rep
 import { RequestPasswordResetUseCase } from './application/use-cases/request-password-reset.use-case';
 import { LogoutUserUseCase } from './application/use-cases/logout-user.use-case';
 import { LoginUseCase } from './application/use-cases/login.use-case';
-import { SignUpUseCase } from './application/use-cases/sign-up.use-case';
+import { RegisterUseCase } from './application/use-cases/register.use-case';
 import { PasswordResetUseCase } from './application/use-cases/password-reset.use-case';
 import { VerifyEmailUseCase } from './application/use-cases/verify-email.use-case';
 
@@ -25,20 +25,21 @@ import { JwtStrategy } from '../../modules/auth/infra/strategies/jwt-strategy';
 import { parseTimeToSeconds } from '../../shared/utils/time.util';
 
 import { LoginAuthController } from './presentation/controllers/login-auth.controller';
-import { SignUpAuthController } from './presentation/controllers/sign-up-auth.controller';
+import { RegisterAuthController } from './presentation/controllers/register-auth.controller';
 import { VerifyEmailAuthController } from './presentation/controllers/verify-email-auth.controller';
 import { LogoutAuthController } from './presentation/controllers/logout-auth.controller';
 import { RequestPasswordResetAuthController } from './presentation/controllers/request-password-reset-auth.controller';
-// import { VerifyRecoveryUseCase } from './application/use-cases/verify-recovery.use-case';
-import { PasswordResetAuthController } from './presentation/controllers/reset-password-auth.controller';
+import { PasswordResetAuthController } from './presentation/controllers/password-reset-auth.controller';
+import { MeUseCase } from './application/use-cases/me.use-case';
+import { MeAuthController } from './presentation/controllers/me-auth.controller';
 
 const WriteUseCases = [
-  SignUpUseCase,
+  RegisterUseCase,
   LogoutUserUseCase,
   RequestPasswordResetUseCase,
   PasswordResetUseCase,
   VerifyEmailUseCase,
-  // VerifyRecoveryUseCase,
+  MeUseCase,
 ];
 
 const ReadUseCases = [LoginUseCase];
@@ -53,11 +54,12 @@ const ReadUseCases = [LoginUseCase];
   ],
   controllers: [
     LoginAuthController,
-    SignUpAuthController,
+    RegisterAuthController,
     VerifyEmailAuthController,
     PasswordResetAuthController,
     RequestPasswordResetAuthController,
     LogoutAuthController,
+    MeAuthController,
   ],
   providers: [
     JwtStrategy,

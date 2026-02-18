@@ -7,6 +7,9 @@ export const envSchema = z.object({
   APP_PORT: z.coerce.number().default(3000),
   APP_URL: z.string().default('http://localhost:3000'),
 
+  // Front
+  FRONT_URL: z.string().default('http://localhost:5173'),
+
   // Database
   DATABASE_URL: z.string(),
 
