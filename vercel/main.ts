@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
 import { env } from '../src/config/env';
-import { ApiReference } from '@scalar/api-reference';
+import { apiReference } from '@scalar/nestjs-api-reference';
 
 let cachedApp;
 
@@ -30,34 +30,17 @@ async function bootstrap() {
       .setTitle(env.APP_NAME)
       .setDescription('API Documentation')
       .setVersion('1.0')
-      .addBearerAuth(
-        {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-        'access-token',
-      )
+      .addBearerAuth()
       .build();
 
     const document = SwaggerModule.createDocument(app, config);
 
-    server.get('/openapi.json', (req, res) => {
-      res.json(document);
-    });
-
-    if (env.APP_ENV !== 'prod') {
-      // remove o SwaggerModule.setup(...)
-      server.use(
-        '/docs',
-        ApiReference({
-          spec: {
-            url: '/openapi.json',
-          },
-          theme: 'elysiajs',
-        }),
-      );
-    }
+    app.use(
+      '/docs',
+      apiReference({
+        content: document,
+      }),
+    );
 
     await app.init();
 
