@@ -8,7 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { PasswordResetDTO } from '../dto/input/password-reset.dto';
 import { PasswordResetUseCase } from '../../application/use-cases/password-reset.use-case';
-import { MessageResponseDTO } from '@/core/presentation/dto/message-response.dto';
+import { MessageResponseDTO } from '../../../../core/presentation/dto/message-response.dto';
 
 @ApiTags('Auth')
 @Controller('auth/reset-password')
