@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
 import { env } from '../src/config/env';
-import { apiReference } from 'node_modules/@scalar/nestjs-api-reference/dist/index.cjs';
+import { apiReference } from '@scalar/nestjs-api-reference';
 
 let cachedApp;
 
