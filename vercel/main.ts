@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import express from 'express';
 import { AppModule } from '../src/modules/app/app.module';
 import { env } from '../src/config/env';
-import { apiReference } from '@scalar/nestjs-api-reference';
+import { ApiReference } from '@scalar/api-reference';
 
 let cachedApp;
 
@@ -50,7 +50,7 @@ async function bootstrap() {
       // remove o SwaggerModule.setup(...)
       server.use(
         '/docs',
-        apiReference({
+        ApiReference({
           spec: {
             url: '/openapi.json',
           },
