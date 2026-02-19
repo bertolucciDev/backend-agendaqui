@@ -31,6 +31,15 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get user(): Prisma.UserDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    get plan(): Prisma.PlanDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get subscription(): Prisma.SubscriptionDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get establishment(): Prisma.EstablishmentDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
     get verification(): Prisma.VerificationDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;

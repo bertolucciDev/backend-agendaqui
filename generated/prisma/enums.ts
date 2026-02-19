@@ -10,11 +10,23 @@
 */
 
 export const Role = {
-  USER: 'USER',
+  CLIENT: 'CLIENT',
+  OWNER: 'OWNER',
+  STAFF: 'STAFF',
   ADMIN: 'ADMIN'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
+
+
+export const SubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  CANCELED: 'CANCELED',
+  PAST_DUE: 'PAST_DUE',
+  TRIALING: 'TRIALING'
+} as const
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
 
 
 export const VerificationType = {

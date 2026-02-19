@@ -40,7 +40,7 @@ export class RegisterUseCase {
       name: dto.name,
       email,
       password,
-      role: Role.USER,
+      role: Role.CLIENT,
       isVerified: false,
     });
     await this.userWriteRepository.create(user);

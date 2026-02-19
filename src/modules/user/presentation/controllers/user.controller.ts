@@ -33,7 +33,7 @@ import { DeleteUserUseCase } from '../../application/use-cases/delete-user.use-c
 @ApiBearerAuth('access-token')
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.USER)
+@Roles(Role.CLIENT)
 export class UserController {
   constructor(
     private readonly updateUserUseCase: UpdateUserUseCase,

@@ -34,7 +34,7 @@ export class UserResponseDTO {
   @IsEnum(Role)
   @ApiProperty({
     enum: Role,
-    example: Role.USER,
+    example: Role.CLIENT,
     description: 'Role assigned to the user',
   })
   readonly role: Role;

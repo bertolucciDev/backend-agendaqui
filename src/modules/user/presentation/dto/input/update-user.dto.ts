@@ -64,7 +64,7 @@ export class UpdateUserDTO {
   @IsEnum(Role)
   @ApiProperty({
     enum: Role,
-    example: Role.USER,
+    example: Role.CLIENT,
     description:
       'Role of the user. Only an admin can update this field. Possible values: USER | ADMIN.',
     required: false,

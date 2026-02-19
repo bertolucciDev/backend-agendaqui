@@ -17,7 +17,7 @@ export class GetAllUsersUseCase {
       throw new NotFoundException('Requester not found');
     }
 
-    if (query.requesterRole === Role.USER) {
+    if (query.requesterRole === Role.CLIENT) {
       throw new NotFoundException('You cannot see other users');
     }
 
