@@ -9,15 +9,61 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  name          String
-  email         String         @unique
-  password      String
-  role          Role           @default(USER)
-  isVerified    Boolean        @default(false)
-  createdAt     DateTime
-  updatedAt     DateTime       @updatedAt
-  verifications Verification[]
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  phone      String?
+  cpf        String?
+  cnpj       String?
+  password   String
+  role       Role     @default(CLIENT)
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  verifications  Verification[]
+  subscriptions  Subscription[]
+  establishments Establishment[]
+}
+
+model Plan {
+  id                String @id @default(uuid())
+  name              String
+  price             Int
+  maxEstablishments Int
+  maxStaffs         Int
+  maxServices       Int
+
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id               String   @id @default(uuid())
+  userId           String
+  planId           String
+  status           SubscriptionStatus
+  currentPeriodEnd DateTime
+
+  user           User            @relation(fields: [userId], references: [id])
+  plan           Plan            @relation(fields: [planId], references: [id])
+  establishments Establishment[]
+
+  @@index([userId])
+  @@index([planId])
+}
+
+model Establishment {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+
+  ownerId        String
+  subscriptionId String
+
+  owner        User         @relation(fields: [ownerId], references: [id])
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+
+  createdAt DateTime @default(now())
 }
 
 model Verification {
@@ -38,8 +84,17 @@ model Verification {
 }
 
 enum Role {
-  USER  @map("user")
-  ADMIN @map("admin")
+  CLIENT
+  OWNER
+  STAFF
+  ADMIN
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
 }
 
 enum VerificationType {

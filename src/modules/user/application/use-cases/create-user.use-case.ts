@@ -28,7 +28,7 @@ export class CreateUserUseCase {
       name: command.name,
       email,
       password,
-      role: command.role ?? Role.USER,
+      role: command.role ?? Role.CLIENT,
       isVerified: true,
     });
     await this.userWriteRepository.create(user);

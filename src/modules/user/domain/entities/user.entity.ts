@@ -47,7 +47,7 @@ export class User extends AggregateRoot {
     const name = props.name;
     const email = props.email;
     const password = props.password;
-    const role = props.role ?? Role.USER;
+    const role = props.role ?? Role.CLIENT;
     const isVerified = props.isVerified ?? false;
 
     return new User({
@@ -104,10 +104,10 @@ export class User extends AggregateRoot {
   }
 
   getRole(): Role {
-    return this.role ?? Role.USER;
+    return this.role ?? Role.CLIENT;
   }
   isDeletable(): boolean {
-    return this.role === Role.USER;
+    return this.role === Role.CLIENT;
   }
   setRole(newRole: Role) {
     this.role = newRole;

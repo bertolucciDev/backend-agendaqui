@@ -39,7 +39,7 @@ export class CreateUserDTO {
   @IsOptional()
   @ApiProperty({
     enum: Role,
-    example: Role.USER,
+    example: Role.CLIENT,
     description: 'Role of the new user',
     required: false,
   })

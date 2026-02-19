@@ -30,7 +30,7 @@ export class DeleteUserUseCase {
       throw new NotFoundException('Target user not found');
     }
 
-    if (command.requesterRole === Role.USER) {
+    if (command.requesterRole === Role.CLIENT) {
       if (command.targetUserId !== command.requesterId) {
         throw new BadRequestException('Cannot delete other user');
       }

@@ -35,7 +35,7 @@ export class UpdateUserUseCase {
     }
 
     if (
-      command.requesterRole === Role.USER &&
+      command.requesterRole === Role.CLIENT &&
       command.targetUserId !== command.requesterId
     ) {
       throw new ForbiddenException('You can only update your own profile');
@@ -43,7 +43,7 @@ export class UpdateUserUseCase {
 
     const updateData: Partial<UpdateUserDTO> = { ...command.updateData };
 
-    if (command.requesterRole === Role.USER) {
+    if (command.requesterRole === Role.CLIENT) {
       delete updateData.role;
     }
     if (command.requesterRole === Role.ADMIN) {
@@ -54,7 +54,7 @@ export class UpdateUserUseCase {
     if (updateData.newEmail)
       targetUser.setEmail(new Email(updateData.newEmail));
     if (updateData.newPassword) {
-      if (command.requesterRole === Role.USER) {
+      if (command.requesterRole === Role.CLIENT) {
         if (!command.currentPassword) {
           throw new Error('Password is required to update password');
         }

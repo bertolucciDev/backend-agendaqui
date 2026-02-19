@@ -27,7 +27,7 @@ export class GetUserByIdUseCase {
     }
 
     if (
-      query.requesterRole === Role.USER &&
+      query.requesterRole === Role.CLIENT &&
       query.targetUserId !== query.requesterId
     ) {
       throw new NotFoundException('Cannot see other users profile');
