@@ -27,87 +27,85 @@ export type AggregatePlan = {
 }
 
 export type PlanAvgAggregateOutputType = {
-  price: number | null
-  maxEstablishments: number | null
-  maxStaffs: number | null
-  maxServices: number | null
+  discountLimit: number | null
+  trialDays: number | null
 }
 
 export type PlanSumAggregateOutputType = {
-  price: number | null
-  maxEstablishments: number | null
-  maxStaffs: number | null
-  maxServices: number | null
+  discountLimit: number | null
+  trialDays: number | null
 }
 
 export type PlanMinAggregateOutputType = {
   id: string | null
   name: string | null
-  price: number | null
-  maxEstablishments: number | null
-  maxStaffs: number | null
-  maxServices: number | null
+  description: string | null
+  discountLimit: number | null
+  hasUnlimitedUsage: boolean | null
+  trialDays: number | null
+  isActive: boolean | null
 }
 
 export type PlanMaxAggregateOutputType = {
   id: string | null
   name: string | null
-  price: number | null
-  maxEstablishments: number | null
-  maxStaffs: number | null
-  maxServices: number | null
+  description: string | null
+  discountLimit: number | null
+  hasUnlimitedUsage: boolean | null
+  trialDays: number | null
+  isActive: boolean | null
 }
 
 export type PlanCountAggregateOutputType = {
   id: number
   name: number
-  price: number
-  maxEstablishments: number
-  maxStaffs: number
-  maxServices: number
+  description: number
+  discountLimit: number
+  hasUnlimitedUsage: number
+  trialDays: number
+  isActive: number
   _all: number
 }
 
 
 export type PlanAvgAggregateInputType = {
-  price?: true
-  maxEstablishments?: true
-  maxStaffs?: true
-  maxServices?: true
+  discountLimit?: true
+  trialDays?: true
 }
 
 export type PlanSumAggregateInputType = {
-  price?: true
-  maxEstablishments?: true
-  maxStaffs?: true
-  maxServices?: true
+  discountLimit?: true
+  trialDays?: true
 }
 
 export type PlanMinAggregateInputType = {
   id?: true
   name?: true
-  price?: true
-  maxEstablishments?: true
-  maxStaffs?: true
-  maxServices?: true
+  description?: true
+  discountLimit?: true
+  hasUnlimitedUsage?: true
+  trialDays?: true
+  isActive?: true
 }
 
 export type PlanMaxAggregateInputType = {
   id?: true
   name?: true
-  price?: true
-  maxEstablishments?: true
-  maxStaffs?: true
-  maxServices?: true
+  description?: true
+  discountLimit?: true
+  hasUnlimitedUsage?: true
+  trialDays?: true
+  isActive?: true
 }
 
 export type PlanCountAggregateInputType = {
   id?: true
   name?: true
-  price?: true
-  maxEstablishments?: true
-  maxStaffs?: true
-  maxServices?: true
+  description?: true
+  discountLimit?: true
+  hasUnlimitedUsage?: true
+  trialDays?: true
+  isActive?: true
   _all?: true
 }
 
@@ -200,10 +198,11 @@ export type PlanGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type PlanGroupByOutputType = {
   id: string
   name: string
-  price: number
-  maxEstablishments: number
-  maxStaffs: number
-  maxServices: number
+  description: string | null
+  discountLimit: number | null
+  hasUnlimitedUsage: boolean
+  trialDays: number | null
+  isActive: boolean
   _count: PlanCountAggregateOutputType | null
   _avg: PlanAvgAggregateOutputType | null
   _sum: PlanSumAggregateOutputType | null
@@ -232,20 +231,24 @@ export type PlanWhereInput = {
   NOT?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
   id?: Prisma.StringFilter<"Plan"> | string
   name?: Prisma.StringFilter<"Plan"> | string
-  price?: Prisma.IntFilter<"Plan"> | number
-  maxEstablishments?: Prisma.IntFilter<"Plan"> | number
-  maxStaffs?: Prisma.IntFilter<"Plan"> | number
-  maxServices?: Prisma.IntFilter<"Plan"> | number
+  description?: Prisma.StringNullableFilter<"Plan"> | string | null
+  discountLimit?: Prisma.IntNullableFilter<"Plan"> | number | null
+  hasUnlimitedUsage?: Prisma.BoolFilter<"Plan"> | boolean
+  trialDays?: Prisma.IntNullableFilter<"Plan"> | number | null
+  isActive?: Prisma.BoolFilter<"Plan"> | boolean
+  prices?: Prisma.PriceListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
 }
 
 export type PlanOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  maxEstablishments?: Prisma.SortOrder
-  maxStaffs?: Prisma.SortOrder
-  maxServices?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  hasUnlimitedUsage?: Prisma.SortOrder
+  trialDays?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  prices?: Prisma.PriceOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
 }
 
@@ -255,20 +258,23 @@ export type PlanWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PlanWhereInput[]
   NOT?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
   name?: Prisma.StringFilter<"Plan"> | string
-  price?: Prisma.IntFilter<"Plan"> | number
-  maxEstablishments?: Prisma.IntFilter<"Plan"> | number
-  maxStaffs?: Prisma.IntFilter<"Plan"> | number
-  maxServices?: Prisma.IntFilter<"Plan"> | number
+  description?: Prisma.StringNullableFilter<"Plan"> | string | null
+  discountLimit?: Prisma.IntNullableFilter<"Plan"> | number | null
+  hasUnlimitedUsage?: Prisma.BoolFilter<"Plan"> | boolean
+  trialDays?: Prisma.IntNullableFilter<"Plan"> | number | null
+  isActive?: Prisma.BoolFilter<"Plan"> | boolean
+  prices?: Prisma.PriceListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
 }, "id">
 
 export type PlanOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  maxEstablishments?: Prisma.SortOrder
-  maxStaffs?: Prisma.SortOrder
-  maxServices?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  discountLimit?: Prisma.SortOrderInput | Prisma.SortOrder
+  hasUnlimitedUsage?: Prisma.SortOrder
+  trialDays?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   _count?: Prisma.PlanCountOrderByAggregateInput
   _avg?: Prisma.PlanAvgOrderByAggregateInput
   _max?: Prisma.PlanMaxOrderByAggregateInput
@@ -282,118 +288,129 @@ export type PlanScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PlanScalarWhereWithAggregatesInput | Prisma.PlanScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   name?: Prisma.StringWithAggregatesFilter<"Plan"> | string
-  price?: Prisma.IntWithAggregatesFilter<"Plan"> | number
-  maxEstablishments?: Prisma.IntWithAggregatesFilter<"Plan"> | number
-  maxStaffs?: Prisma.IntWithAggregatesFilter<"Plan"> | number
-  maxServices?: Prisma.IntWithAggregatesFilter<"Plan"> | number
+  description?: Prisma.StringNullableWithAggregatesFilter<"Plan"> | string | null
+  discountLimit?: Prisma.IntNullableWithAggregatesFilter<"Plan"> | number | null
+  hasUnlimitedUsage?: Prisma.BoolWithAggregatesFilter<"Plan"> | boolean
+  trialDays?: Prisma.IntNullableWithAggregatesFilter<"Plan"> | number | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"Plan"> | boolean
 }
 
 export type PlanCreateInput = {
   id?: string
   name: string
-  price: number
-  maxEstablishments: number
-  maxStaffs: number
-  maxServices: number
+  description?: string | null
+  discountLimit?: number | null
+  hasUnlimitedUsage?: boolean
+  trialDays?: number | null
+  isActive?: boolean
+  prices?: Prisma.PriceCreateNestedManyWithoutPlanInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutPlanInput
 }
 
 export type PlanUncheckedCreateInput = {
   id?: string
   name: string
-  price: number
-  maxEstablishments: number
-  maxStaffs: number
-  maxServices: number
+  description?: string | null
+  discountLimit?: number | null
+  hasUnlimitedUsage?: boolean
+  trialDays?: number | null
+  isActive?: boolean
+  prices?: Prisma.PriceUncheckedCreateNestedManyWithoutPlanInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutPlanInput
 }
 
 export type PlanUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEstablishments?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStaffs?: Prisma.IntFieldUpdateOperationsInput | number
-  maxServices?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  prices?: Prisma.PriceUpdateManyWithoutPlanNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutPlanNestedInput
 }
 
 export type PlanUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEstablishments?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStaffs?: Prisma.IntFieldUpdateOperationsInput | number
-  maxServices?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  prices?: Prisma.PriceUncheckedUpdateManyWithoutPlanNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutPlanNestedInput
 }
 
 export type PlanCreateManyInput = {
   id?: string
   name: string
-  price: number
-  maxEstablishments: number
-  maxStaffs: number
-  maxServices: number
+  description?: string | null
+  discountLimit?: number | null
+  hasUnlimitedUsage?: boolean
+  trialDays?: number | null
+  isActive?: boolean
 }
 
 export type PlanUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEstablishments?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStaffs?: Prisma.IntFieldUpdateOperationsInput | number
-  maxServices?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type PlanUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEstablishments?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStaffs?: Prisma.IntFieldUpdateOperationsInput | number
-  maxServices?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type PlanCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  maxEstablishments?: Prisma.SortOrder
-  maxStaffs?: Prisma.SortOrder
-  maxServices?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  discountLimit?: Prisma.SortOrder
+  hasUnlimitedUsage?: Prisma.SortOrder
+  trialDays?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type PlanAvgOrderByAggregateInput = {
-  price?: Prisma.SortOrder
-  maxEstablishments?: Prisma.SortOrder
-  maxStaffs?: Prisma.SortOrder
-  maxServices?: Prisma.SortOrder
+  discountLimit?: Prisma.SortOrder
+  trialDays?: Prisma.SortOrder
 }
 
 export type PlanMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  maxEstablishments?: Prisma.SortOrder
-  maxStaffs?: Prisma.SortOrder
-  maxServices?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  discountLimit?: Prisma.SortOrder
+  hasUnlimitedUsage?: Prisma.SortOrder
+  trialDays?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type PlanMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  price?: Prisma.SortOrder
-  maxEstablishments?: Prisma.SortOrder
-  maxStaffs?: Prisma.SortOrder
-  maxServices?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  discountLimit?: Prisma.SortOrder
+  hasUnlimitedUsage?: Prisma.SortOrder
+  trialDays?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type PlanSumOrderByAggregateInput = {
-  price?: Prisma.SortOrder
-  maxEstablishments?: Prisma.SortOrder
-  maxStaffs?: Prisma.SortOrder
-  maxServices?: Prisma.SortOrder
+  discountLimit?: Prisma.SortOrder
+  trialDays?: Prisma.SortOrder
 }
 
 export type PlanScalarRelationFilter = {
@@ -401,12 +418,18 @@ export type PlanScalarRelationFilter = {
   isNot?: Prisma.PlanWhereInput
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type PlanCreateNestedOneWithoutPricesInput = {
+  create?: Prisma.XOR<Prisma.PlanCreateWithoutPricesInput, Prisma.PlanUncheckedCreateWithoutPricesInput>
+  connectOrCreate?: Prisma.PlanCreateOrConnectWithoutPricesInput
+  connect?: Prisma.PlanWhereUniqueInput
+}
+
+export type PlanUpdateOneRequiredWithoutPricesNestedInput = {
+  create?: Prisma.XOR<Prisma.PlanCreateWithoutPricesInput, Prisma.PlanUncheckedCreateWithoutPricesInput>
+  connectOrCreate?: Prisma.PlanCreateOrConnectWithoutPricesInput
+  upsert?: Prisma.PlanUpsertWithoutPricesInput
+  connect?: Prisma.PlanWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PlanUpdateToOneWithWhereWithoutPricesInput, Prisma.PlanUpdateWithoutPricesInput>, Prisma.PlanUncheckedUpdateWithoutPricesInput>
 }
 
 export type PlanCreateNestedOneWithoutSubscriptionsInput = {
@@ -423,22 +446,86 @@ export type PlanUpdateOneRequiredWithoutSubscriptionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PlanUpdateToOneWithWhereWithoutSubscriptionsInput, Prisma.PlanUpdateWithoutSubscriptionsInput>, Prisma.PlanUncheckedUpdateWithoutSubscriptionsInput>
 }
 
+export type PlanCreateWithoutPricesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  discountLimit?: number | null
+  hasUnlimitedUsage?: boolean
+  trialDays?: number | null
+  isActive?: boolean
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutPlanInput
+}
+
+export type PlanUncheckedCreateWithoutPricesInput = {
+  id?: string
+  name: string
+  description?: string | null
+  discountLimit?: number | null
+  hasUnlimitedUsage?: boolean
+  trialDays?: number | null
+  isActive?: boolean
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutPlanInput
+}
+
+export type PlanCreateOrConnectWithoutPricesInput = {
+  where: Prisma.PlanWhereUniqueInput
+  create: Prisma.XOR<Prisma.PlanCreateWithoutPricesInput, Prisma.PlanUncheckedCreateWithoutPricesInput>
+}
+
+export type PlanUpsertWithoutPricesInput = {
+  update: Prisma.XOR<Prisma.PlanUpdateWithoutPricesInput, Prisma.PlanUncheckedUpdateWithoutPricesInput>
+  create: Prisma.XOR<Prisma.PlanCreateWithoutPricesInput, Prisma.PlanUncheckedCreateWithoutPricesInput>
+  where?: Prisma.PlanWhereInput
+}
+
+export type PlanUpdateToOneWithWhereWithoutPricesInput = {
+  where?: Prisma.PlanWhereInput
+  data: Prisma.XOR<Prisma.PlanUpdateWithoutPricesInput, Prisma.PlanUncheckedUpdateWithoutPricesInput>
+}
+
+export type PlanUpdateWithoutPricesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutPlanNestedInput
+}
+
+export type PlanUncheckedUpdateWithoutPricesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutPlanNestedInput
+}
+
 export type PlanCreateWithoutSubscriptionsInput = {
   id?: string
   name: string
-  price: number
-  maxEstablishments: number
-  maxStaffs: number
-  maxServices: number
+  description?: string | null
+  discountLimit?: number | null
+  hasUnlimitedUsage?: boolean
+  trialDays?: number | null
+  isActive?: boolean
+  prices?: Prisma.PriceCreateNestedManyWithoutPlanInput
 }
 
 export type PlanUncheckedCreateWithoutSubscriptionsInput = {
   id?: string
   name: string
-  price: number
-  maxEstablishments: number
-  maxStaffs: number
-  maxServices: number
+  description?: string | null
+  discountLimit?: number | null
+  hasUnlimitedUsage?: boolean
+  trialDays?: number | null
+  isActive?: boolean
+  prices?: Prisma.PriceUncheckedCreateNestedManyWithoutPlanInput
 }
 
 export type PlanCreateOrConnectWithoutSubscriptionsInput = {
@@ -460,19 +547,23 @@ export type PlanUpdateToOneWithWhereWithoutSubscriptionsInput = {
 export type PlanUpdateWithoutSubscriptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEstablishments?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStaffs?: Prisma.IntFieldUpdateOperationsInput | number
-  maxServices?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  prices?: Prisma.PriceUpdateManyWithoutPlanNestedInput
 }
 
 export type PlanUncheckedUpdateWithoutSubscriptionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  price?: Prisma.IntFieldUpdateOperationsInput | number
-  maxEstablishments?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStaffs?: Prisma.IntFieldUpdateOperationsInput | number
-  maxServices?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  discountLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  hasUnlimitedUsage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  trialDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  prices?: Prisma.PriceUncheckedUpdateManyWithoutPlanNestedInput
 }
 
 
@@ -481,10 +572,12 @@ export type PlanUncheckedUpdateWithoutSubscriptionsInput = {
  */
 
 export type PlanCountOutputType = {
+  prices: number
   subscriptions: number
 }
 
 export type PlanCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  prices?: boolean | PlanCountOutputTypeCountPricesArgs
   subscriptions?: boolean | PlanCountOutputTypeCountSubscriptionsArgs
 }
 
@@ -501,6 +594,13 @@ export type PlanCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * PlanCountOutputType without action
  */
+export type PlanCountOutputTypeCountPricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PriceWhereInput
+}
+
+/**
+ * PlanCountOutputType without action
+ */
 export type PlanCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SubscriptionWhereInput
 }
@@ -509,10 +609,12 @@ export type PlanCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Ty
 export type PlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  price?: boolean
-  maxEstablishments?: boolean
-  maxStaffs?: boolean
-  maxServices?: boolean
+  description?: boolean
+  discountLimit?: boolean
+  hasUnlimitedUsage?: boolean
+  trialDays?: boolean
+  isActive?: boolean
+  prices?: boolean | Prisma.Plan$pricesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.Plan$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.PlanCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["plan"]>
@@ -520,32 +622,36 @@ export type PlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type PlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  price?: boolean
-  maxEstablishments?: boolean
-  maxStaffs?: boolean
-  maxServices?: boolean
+  description?: boolean
+  discountLimit?: boolean
+  hasUnlimitedUsage?: boolean
+  trialDays?: boolean
+  isActive?: boolean
 }, ExtArgs["result"]["plan"]>
 
 export type PlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
-  price?: boolean
-  maxEstablishments?: boolean
-  maxStaffs?: boolean
-  maxServices?: boolean
+  description?: boolean
+  discountLimit?: boolean
+  hasUnlimitedUsage?: boolean
+  trialDays?: boolean
+  isActive?: boolean
 }, ExtArgs["result"]["plan"]>
 
 export type PlanSelectScalar = {
   id?: boolean
   name?: boolean
-  price?: boolean
-  maxEstablishments?: boolean
-  maxStaffs?: boolean
-  maxServices?: boolean
+  description?: boolean
+  discountLimit?: boolean
+  hasUnlimitedUsage?: boolean
+  trialDays?: boolean
+  isActive?: boolean
 }
 
-export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "price" | "maxEstablishments" | "maxStaffs" | "maxServices", ExtArgs["result"]["plan"]>
+export type PlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "discountLimit" | "hasUnlimitedUsage" | "trialDays" | "isActive", ExtArgs["result"]["plan"]>
 export type PlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  prices?: boolean | Prisma.Plan$pricesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.Plan$subscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.PlanCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -555,15 +661,17 @@ export type PlanIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $PlanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Plan"
   objects: {
+    prices: Prisma.$PricePayload<ExtArgs>[]
     subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
-    price: number
-    maxEstablishments: number
-    maxStaffs: number
-    maxServices: number
+    description: string | null
+    discountLimit: number | null
+    hasUnlimitedUsage: boolean
+    trialDays: number | null
+    isActive: boolean
   }, ExtArgs["result"]["plan"]>
   composites: {}
 }
@@ -958,6 +1066,7 @@ readonly fields: PlanFieldRefs;
  */
 export interface Prisma__PlanClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  prices<T extends Prisma.Plan$pricesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Plan$pricesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.Plan$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Plan$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -990,10 +1099,11 @@ export interface Prisma__PlanClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface PlanFieldRefs {
   readonly id: Prisma.FieldRef<"Plan", 'String'>
   readonly name: Prisma.FieldRef<"Plan", 'String'>
-  readonly price: Prisma.FieldRef<"Plan", 'Int'>
-  readonly maxEstablishments: Prisma.FieldRef<"Plan", 'Int'>
-  readonly maxStaffs: Prisma.FieldRef<"Plan", 'Int'>
-  readonly maxServices: Prisma.FieldRef<"Plan", 'Int'>
+  readonly description: Prisma.FieldRef<"Plan", 'String'>
+  readonly discountLimit: Prisma.FieldRef<"Plan", 'Int'>
+  readonly hasUnlimitedUsage: Prisma.FieldRef<"Plan", 'Boolean'>
+  readonly trialDays: Prisma.FieldRef<"Plan", 'Int'>
+  readonly isActive: Prisma.FieldRef<"Plan", 'Boolean'>
 }
     
 
@@ -1190,6 +1300,11 @@ export type PlanFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Skip the first `n` Plans.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Plans.
+   */
   distinct?: Prisma.PlanScalarFieldEnum | Prisma.PlanScalarFieldEnum[]
 }
 
@@ -1379,6 +1494,30 @@ export type PlanDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Plans to delete.
    */
   limit?: number
+}
+
+/**
+ * Plan.prices
+ */
+export type Plan$pricesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Price
+   */
+  select?: Prisma.PriceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Price
+   */
+  omit?: Prisma.PriceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PriceInclude<ExtArgs> | null
+  where?: Prisma.PriceWhereInput
+  orderBy?: Prisma.PriceOrderByWithRelationInput | Prisma.PriceOrderByWithRelationInput[]
+  cursor?: Prisma.PriceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PriceScalarFieldEnum | Prisma.PriceScalarFieldEnum[]
 }
 
 /**

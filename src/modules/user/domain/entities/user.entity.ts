@@ -8,6 +8,9 @@ import { v4 as uuidv4 } from 'uuid';
 interface UserProps extends BaseEntityType {
   name: string;
   email: Email;
+  phone?: string | null;
+  cpf?: string | null;
+  cnpj?: string | null;
   password: Password;
   role: Role;
   isVerified: boolean;
@@ -16,6 +19,9 @@ interface UserProps extends BaseEntityType {
 export type CreateUserProps = {
   name: string;
   email: Email;
+  phone?: string;
+  cpf?: string;
+  cnpj?: string;
   password: Password;
   role?: Role;
   isVerified: boolean;
@@ -26,6 +32,9 @@ export type UpdateUserProps = Partial<Omit<CreateUserProps, 'password'>>;
 export class User extends AggregateRoot {
   private name: string;
   private email: Email;
+  private phone: string | null;
+  private cpf: string | null;
+  private cnpj: string | null;
   private password: Password;
   private role: Role;
   private isVerified: boolean;
@@ -38,6 +47,9 @@ export class User extends AggregateRoot {
     });
     this.name = props.name;
     this.email = props.email;
+    this.phone = props.phone ?? null;
+    this.cpf = props.cpf ?? null;
+    this.cnpj = props.cnpj ?? null;
     this.password = props.password;
     this.role = props.role;
     this.isVerified = props.isVerified;
@@ -46,6 +58,9 @@ export class User extends AggregateRoot {
   static create(props: CreateUserProps): User {
     const name = props.name;
     const email = props.email;
+    const phone = props.phone;
+    const cpf = props.cpf;
+    const cnpj = props.cnpj;
     const password = props.password;
     const role = props.role ?? Role.CLIENT;
     const isVerified = props.isVerified ?? false;
@@ -54,6 +69,9 @@ export class User extends AggregateRoot {
       id: uuidv4(),
       name,
       email,
+      phone,
+      cpf,
+      cnpj,
       password,
       role,
       isVerified,
@@ -65,6 +83,7 @@ export class User extends AggregateRoot {
   update(props: UpdateUserProps) {
     if (props.name) this.name = props.name;
     if (props.email) this.email = props.email;
+    if (props.phone) this.phone = props.phone;
     if (props.role) this.role = props.role;
     if (props.isVerified) this.isVerified = props.isVerified;
   }
@@ -88,6 +107,13 @@ export class User extends AggregateRoot {
   }
   setEmail(newEmail: Email) {
     this.email = newEmail;
+  }
+
+  getPhone(): string | null {
+    return this.phone;
+  }
+  setPhone(newPhone: string) {
+    this.phone = newPhone;
   }
 
   /** 🔒 Não expõe o VO inteiro, só a validação controlada */

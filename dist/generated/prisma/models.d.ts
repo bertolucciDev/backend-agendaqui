@@ -1,6 +1,13 @@
 export type * from './models/User';
+export type * from './models/Business';
+export type * from './models/Membership';
+export type * from './models/Location';
+export type * from './models/Service';
+export type * from './models/Discount';
+export type * from './models/Booking';
+export type * from './models/DiscountUsage';
 export type * from './models/Plan';
+export type * from './models/Price';
 export type * from './models/Subscription';
-export type * from './models/Establishment';
 export type * from './models/Verification';
 export type * from './commonInputTypes';

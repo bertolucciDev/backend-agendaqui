@@ -52,9 +52,16 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Business: 'Business',
+  Membership: 'Membership',
+  Location: 'Location',
+  Service: 'Service',
+  Discount: 'Discount',
+  Booking: 'Booking',
+  DiscountUsage: 'DiscountUsage',
   Plan: 'Plan',
+  Price: 'Price',
   Subscription: 'Subscription',
-  Establishment: 'Establishment',
   Verification: 'Verification'
 } as const
 
@@ -79,51 +86,157 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   phone: 'phone',
-  cpf: 'cpf',
-  cnpj: 'cnpj',
-  password: 'password',
-  role: 'role',
+  passwordHash: 'passwordHash',
   isVerified: 'isVerified',
+  profileCompleted: 'profileCompleted',
+  role: 'role',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+export const BusinessScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  document: 'document',
+  documentType: 'documentType',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BusinessScalarFieldEnum = (typeof BusinessScalarFieldEnum)[keyof typeof BusinessScalarFieldEnum]
+
+
+export const MembershipScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  businessId: 'businessId',
+  role: 'role'
+} as const
+
+export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
+
+
+export const LocationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  isActive: 'isActive',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  address: 'address',
+  businessId: 'businessId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LocationScalarFieldEnum = (typeof LocationScalarFieldEnum)[keyof typeof LocationScalarFieldEnum]
+
+
+export const ServiceScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  basePrice: 'basePrice',
+  durationMinutes: 'durationMinutes',
+  isActive: 'isActive',
+  locationId: 'locationId'
+} as const
+
+export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+export const DiscountScalarFieldEnum = {
+  id: 'id',
+  locationId: 'locationId',
+  serviceId: 'serviceId',
+  percentage: 'percentage',
+  fixedAmount: 'fixedAmount',
+  maxUses: 'maxUses',
+  isExclusive: 'isExclusive',
+  isActive: 'isActive',
+  startAt: 'startAt',
+  endAt: 'endAt'
+} as const
+
+export type DiscountScalarFieldEnum = (typeof DiscountScalarFieldEnum)[keyof typeof DiscountScalarFieldEnum]
+
+
+export const BookingScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  locationId: 'locationId',
+  serviceId: 'serviceId',
+  discountId: 'discountId',
+  basePrice: 'basePrice',
+  discountAmount: 'discountAmount',
+  finalPrice: 'finalPrice',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  createdAt: 'createdAt'
+} as const
+
+export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
+
+
+export const DiscountUsageScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subscriptionId: 'subscriptionId',
+  bookingId: 'bookingId',
+  createdAt: 'createdAt'
+} as const
+
+export type DiscountUsageScalarFieldEnum = (typeof DiscountUsageScalarFieldEnum)[keyof typeof DiscountUsageScalarFieldEnum]
+
+
 export const PlanScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  price: 'price',
-  maxEstablishments: 'maxEstablishments',
-  maxStaffs: 'maxStaffs',
-  maxServices: 'maxServices'
+  description: 'description',
+  discountLimit: 'discountLimit',
+  hasUnlimitedUsage: 'hasUnlimitedUsage',
+  trialDays: 'trialDays',
+  isActive: 'isActive'
 } as const
 
 export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
+
+
+export const PriceScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  amount: 'amount',
+  currency: 'currency',
+  interval: 'interval',
+  intervalCount: 'intervalCount',
+  isActive: 'isActive'
+} as const
+
+export type PriceScalarFieldEnum = (typeof PriceScalarFieldEnum)[keyof typeof PriceScalarFieldEnum]
 
 
 export const SubscriptionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   planId: 'planId',
+  priceId: 'priceId',
+  externalId: 'externalId',
   status: 'status',
-  currentPeriodEnd: 'currentPeriodEnd'
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  trialEnd: 'trialEnd',
+  canceledAt: 'canceledAt',
+  endedAt: 'endedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
-
-
-export const EstablishmentScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  description: 'description',
-  ownerId: 'ownerId',
-  subscriptionId: 'subscriptionId',
-  createdAt: 'createdAt'
-} as const
-
-export type EstablishmentScalarFieldEnum = (typeof EstablishmentScalarFieldEnum)[keyof typeof EstablishmentScalarFieldEnum]
 
 
 export const VerificationScalarFieldEnum = {

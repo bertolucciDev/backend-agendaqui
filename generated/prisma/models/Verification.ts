@@ -233,18 +233,18 @@ export type VerificationOrderByWithRelationInput = {
 export type VerificationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   token?: string
-  code?: string
   AND?: Prisma.VerificationWhereInput | Prisma.VerificationWhereInput[]
   OR?: Prisma.VerificationWhereInput[]
   NOT?: Prisma.VerificationWhereInput | Prisma.VerificationWhereInput[]
   userId?: Prisma.StringFilter<"Verification"> | string
+  code?: Prisma.StringFilter<"Verification"> | string
   type?: Prisma.EnumVerificationTypeFilter<"Verification"> | $Enums.VerificationType
   expiresAt?: Prisma.DateTimeFilter<"Verification"> | Date | string
   isUsed?: Prisma.BoolFilter<"Verification"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Verification"> | Date | string
   usedAt?: Prisma.DateTimeNullableFilter<"Verification"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "token" | "code">
+}, "id" | "token">
 
 export type VerificationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -449,10 +449,6 @@ export type VerificationUncheckedUpdateManyWithoutUserNestedInput = {
 
 export type EnumVerificationTypeFieldUpdateOperationsInput = {
   set?: $Enums.VerificationType
-}
-
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
 }
 
 export type VerificationCreateWithoutUserInput = {
@@ -1270,6 +1266,11 @@ export type VerificationFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` Verifications.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Verifications.
+   */
   distinct?: Prisma.VerificationScalarFieldEnum | Prisma.VerificationScalarFieldEnum[]
 }
 

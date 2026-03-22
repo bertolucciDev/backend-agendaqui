@@ -31,13 +31,34 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get user(): Prisma.UserDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    get business(): Prisma.BusinessDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get membership(): Prisma.MembershipDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get location(): Prisma.LocationDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get service(): Prisma.ServiceDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get discount(): Prisma.DiscountDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get booking(): Prisma.BookingDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    get discountUsage(): Prisma.DiscountUsageDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
     get plan(): Prisma.PlanDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
-    get subscription(): Prisma.SubscriptionDelegate<ExtArgs, {
+    get price(): Prisma.PriceDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
-    get establishment(): Prisma.EstablishmentDelegate<ExtArgs, {
+    get subscription(): Prisma.SubscriptionDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
     get verification(): Prisma.VerificationDelegate<ExtArgs, {

@@ -13,7 +13,8 @@ import { GetUserByIdUseCase } from './application/use-cases/get-user-by-id.use-c
 import { CheckEmailUseCase } from './application/use-cases/check-email.use-case';
 import { GetAllUsersUseCase } from './application/use-cases/get-all-users.use-case';
 
-import { UserController } from '../../modules/user/presentation/controllers/user.controller';
+import { DeleteUserController } from './presentation/controllers/user/delete-user.controller';
+import { UpdateUserController } from './presentation/controllers/user/update-user.controller';
 // import { AdminController } from '../../modules/user/presentation/controllers/admin.controller';
 
 const WriteUseCases = [CreateUserUseCase, DeleteUserUseCase, UpdateUserUseCase];
@@ -25,7 +26,7 @@ const ReadUseCases = [
 ];
 
 @Module({
-  controllers: [UserController],
+  controllers: [DeleteUserController, UpdateUserController],
   providers: [
     {
       provide: AbstractUserWriteRepository,
