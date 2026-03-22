@@ -3,6 +3,7 @@ import {
   IsEmail,
   IsEnum,
   IsOptional,
+  IsPhoneNumber,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -26,6 +27,15 @@ export class UpdateUserDTO {
     required: false,
   })
   newEmail?: string;
+
+  @IsPhoneNumber()
+  @IsOptional()
+  @ApiProperty({
+    example: '+55 11 99999-9999',
+    description: 'Updated phone number. Optional',
+    required: false,
+  })
+  newPhone?: string;
 
   @IsString()
   @IsOptional()

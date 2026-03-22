@@ -35,7 +35,7 @@ export class PrismaPasswordResetTokenRepository implements AbstractVerificationR
   }
 
   async findByCode(code: string): Promise<Verification | null> {
-    return this.prisma.verification.findUnique({
+    return this.prisma.verification.findFirst({
       where: { code },
     });
   }

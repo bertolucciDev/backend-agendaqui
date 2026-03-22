@@ -19,48 +19,47 @@ export class UpdateUserUseCase {
     private readonly userReadRepository: AbstractUserReadRepository,
   ) {}
 
-  async execute(command: UpdateUserInput): Promise<void> {
-    const requester = await this.userReadRepository.findById(
-      command.requesterId,
-    );
+  async execute(input: UpdateUserInput): Promise<void> {
+    const requester = await this.userReadRepository.findById(input.requesterId);
     if (!requester) {
       throw new NotFoundException('Requester not found');
     }
 
     const targetUser = await this.userReadRepository.findById(
-      command.targetUserId,
+      input.targetUserId,
     );
     if (!targetUser) {
       throw new NotFoundException('Target user not found');
     }
 
     if (
-      command.requesterRole === Role.CLIENT &&
-      command.targetUserId !== command.requesterId
+      input.requesterRole === Role.CLIENT &&
+      input.targetUserId !== input.requesterId
     ) {
       throw new ForbiddenException('You can only update your own profile');
     }
 
-    const updateData: Partial<UpdateUserDTO> = { ...command.updateData };
+    const updateData: Partial<UpdateUserDTO> = { ...input.updateData };
 
-    if (command.requesterRole === Role.CLIENT) {
+    if (input.requesterRole === Role.CLIENT) {
       delete updateData.role;
     }
-    if (command.requesterRole === Role.ADMIN) {
+    if (input.requesterRole === Role.ADMIN) {
       delete updateData.currentPassword;
     }
 
     if (updateData.newName) targetUser.setName(updateData.newName);
     if (updateData.newEmail)
       targetUser.setEmail(new Email(updateData.newEmail));
+    if (updateData.newPhone) targetUser.setPhone(updateData.newPhone);
     if (updateData.newPassword) {
-      if (command.requesterRole === Role.CLIENT) {
-        if (!command.currentPassword) {
+      if (input.requesterRole === Role.CLIENT) {
+        if (!input.currentPassword) {
           throw new Error('Password is required to update password');
         }
 
         const isPasswordValid = await requester.comparePassword(
-          command.currentPassword,
+          input.currentPassword,
         );
         if (!isPasswordValid) {
           throw new ForbiddenException('Invalid password');

@@ -9,14 +9,48 @@
 * 🟢 You can import this file directly.
 */
 
-export const Role = {
+export const PlatformRole = {
   CLIENT: 'CLIENT',
   OWNER: 'OWNER',
   STAFF: 'STAFF',
   ADMIN: 'ADMIN'
 } as const
 
-export type Role = (typeof Role)[keyof typeof Role]
+export type PlatformRole = (typeof PlatformRole)[keyof typeof PlatformRole]
+
+
+export const LegalEntityType = {
+  CPF: 'CPF',
+  CNPJ: 'CNPJ'
+} as const
+
+export type LegalEntityType = (typeof LegalEntityType)[keyof typeof LegalEntityType]
+
+
+export const CompanyRole = {
+  OWNER: 'OWNER',
+  STAFF: 'STAFF'
+} as const
+
+export type CompanyRole = (typeof CompanyRole)[keyof typeof CompanyRole]
+
+
+export const BookingStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  COMPLETED: 'COMPLETED',
+  CANCELED: 'CANCELED'
+} as const
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
+
+
+export const BillingInterval = {
+  MONTH: 'MONTH',
+  YEAR: 'YEAR'
+} as const
+
+export type BillingInterval = (typeof BillingInterval)[keyof typeof BillingInterval]
 
 
 export const SubscriptionStatus = {

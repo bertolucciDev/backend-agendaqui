@@ -9,68 +9,251 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  email      String   @unique
-  phone      String?
-  cpf        String?
-  cnpj       String?
-  password   String
-  role       Role     @default(CLIENT)
-  isVerified Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id               String  @id @default(uuid())
+  name             String
+  email            String  @unique
+  phone            String? @unique
+  passwordHash     String
+  isVerified       Boolean @default(false)
+  profileCompleted Boolean @default(false)
 
-  verifications  Verification[]
+  role PlatformRole @default(CLIENT)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
   subscriptions  Subscription[]
-  establishments Establishment[]
+  memberships    Membership[]
+  bookings       Booking[]
+  discountUsages DiscountUsage[]
+  verifications  Verification[]
+}
+
+enum PlatformRole {
+  CLIENT
+  OWNER
+  STAFF
+  ADMIN
+}
+
+model Business {
+  id           String          @id @default(uuid())
+  name         String
+  document     String          @unique
+  documentType LegalEntityType
+  isActive     Boolean         @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  locations   Location[]
+  memberships Membership[]
+}
+
+enum LegalEntityType {
+  CPF
+  CNPJ
+}
+
+model Membership {
+  id         String      @id @default(uuid())
+  userId     String
+  businessId String
+  role       CompanyRole
+
+  user     User     @relation(fields: [userId], references: [id])
+  business Business @relation(fields: [businessId], references: [id])
+
+  @@unique([userId, businessId])
+}
+
+enum CompanyRole {
+  OWNER
+  STAFF
+}
+
+model Location {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  isActive    Boolean @default(true)
+
+  latitude  Float
+  longitude Float
+  address   String
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  services  Service[]
+  discounts Discount[]
+  bookings  Booking[]
+
+  @@index([businessId])
+}
+
+model Service {
+  id              String  @id @default(uuid())
+  name            String
+  description     String?
+  basePrice       Int // cents
+  durationMinutes Int
+  isActive        Boolean @default(true)
+
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+
+  discounts Discount[]
+  bookings  Booking[]
+
+  @@index([locationId])
+}
+
+model Discount {
+  id         String  @id @default(uuid())
+  locationId String
+  serviceId  String?
+
+  percentage  Int?
+  fixedAmount Int?
+  maxUses     Int?
+  isExclusive Boolean @default(true)
+  isActive    Boolean @default(true)
+
+  startAt DateTime
+  endAt   DateTime?
+
+  location Location @relation(fields: [locationId], references: [id])
+  service  Service? @relation(fields: [serviceId], references: [id])
+
+  bookings Booking[]
+}
+
+model Booking {
+  id         String  @id @default(uuid())
+  userId     String
+  locationId String
+  serviceId  String
+  discountId String?
+
+  basePrice      Int
+  discountAmount Int?
+  finalPrice     Int
+
+  status      BookingStatus
+  scheduledAt DateTime
+
+  createdAt DateTime @default(now())
+
+  user     User      @relation(fields: [userId], references: [id])
+  location Location  @relation(fields: [locationId], references: [id])
+  service  Service   @relation(fields: [serviceId], references: [id])
+  discount Discount? @relation(fields: [discountId], references: [id])
+
+  discountUsage DiscountUsage?
+
+  @@index([locationId, scheduledAt])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELED
+}
+
+model DiscountUsage {
+  id             String @id @default(uuid())
+  userId         String
+  subscriptionId String
+  bookingId      String
+
+  createdAt DateTime @default(now())
+
+  user         User         @relation(fields: [userId], references: [id])
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  booking      Booking      @relation(fields: [bookingId], references: [id])
+
+  @@unique([bookingId])
 }
 
 model Plan {
-  id                String @id @default(uuid())
-  name              String
-  price             Int
-  maxEstablishments Int
-  maxStaffs         Int
-  maxServices       Int
-
-  subscriptions Subscription[]
-}
-
-model Subscription {
-  id               String   @id @default(uuid())
-  userId           String
-  planId           String
-  status           SubscriptionStatus
-  currentPeriodEnd DateTime
-
-  user           User            @relation(fields: [userId], references: [id])
-  plan           Plan            @relation(fields: [planId], references: [id])
-  establishments Establishment[]
-
-  @@index([userId])
-  @@index([planId])
-}
-
-model Establishment {
   id          String  @id @default(uuid())
   name        String
   description String?
 
-  ownerId        String
-  subscriptionId String
+  discountLimit     Int?
+  hasUnlimitedUsage Boolean @default(false)
 
-  owner        User         @relation(fields: [ownerId], references: [id])
-  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  trialDays Int? @default(0)
+
+  isActive Boolean @default(true)
+
+  prices        Price[]
+  subscriptions Subscription[]
+}
+
+model Price {
+  id            String          @id @default(uuid())
+  planId        String
+  amount        Int // cents
+  currency      String          @default("BRL")
+  interval      BillingInterval
+  intervalCount Int             @default(1)
+  isActive      Boolean         @default(true)
+
+  plan          Plan           @relation(fields: [planId], references: [id])
+  subscriptions Subscription[]
+}
+
+enum BillingInterval {
+  MONTH
+  YEAR
+}
+
+model Subscription {
+  id         String             @id @default(uuid())
+  userId     String
+  planId     String
+  priceId    String
+  externalId String?
+  status     SubscriptionStatus
+
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  trialEnd           DateTime?
+  canceledAt         DateTime?
+  endedAt            DateTime?
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id])
+  plan  Plan  @relation(fields: [planId], references: [id])
+  price Price @relation(fields: [priceId], references: [id])
+
+  discountUsages DiscountUsage[]
+
+  @@index([userId])
+  @@index([userId, status])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
 }
 
 model Verification {
   id        String           @id @default(uuid())
   userId    String
   token     String           @unique
-  code      String           @unique
+  code      String
   type      VerificationType
   expiresAt DateTime
   isUsed    Boolean          @default(false)
@@ -81,20 +264,6 @@ model Verification {
   @@index([userId])
   @@index([token])
   @@index([code])
-}
-
-enum Role {
-  CLIENT
-  OWNER
-  STAFF
-  ADMIN
-}
-
-enum SubscriptionStatus {
-  ACTIVE
-  CANCELED
-  PAST_DUE
-  TRIALING
 }
 
 enum VerificationType {
