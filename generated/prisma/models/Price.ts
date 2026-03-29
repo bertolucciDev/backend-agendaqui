@@ -210,7 +210,7 @@ export type PriceGroupByOutputType = {
   _max: PriceMaxAggregateOutputType | null
 }
 
-type GetPriceGroupByPayload<T extends PriceGroupByArgs> = Prisma.PrismaPromise<
+export type GetPriceGroupByPayload<T extends PriceGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<PriceGroupByOutputType, T['by']> &
       {
