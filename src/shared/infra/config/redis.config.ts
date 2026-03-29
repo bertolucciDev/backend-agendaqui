@@ -1,7 +1,6 @@
 import { Provider } from '@nestjs/common';
 import Redis from 'ioredis';
 import { env } from '../../../config/env';
-import { DisabledRedisClient } from '../cache/redis/disabled-redis.client';
 
 export const REDIS_CLIENT = 'REDIS_CLIENT';
 
@@ -11,7 +10,7 @@ export const RedisProvider: Provider<Redis> = {
     const url = env.CACHE_URL;
 
     if (!url) {
-      return new DisabledRedisClient() as unknown as Redis;
+      throw new Error('CACHE_URL is not defined');
     }
 
     return new Redis(url, {

@@ -1,23 +1,14 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import Redis from 'ioredis';
 import { env } from '../../../../config/env';
-import { DisabledRedisClient } from './disabled-redis.client';
 
 @Injectable()
-export class RedisService implements OnModuleDestroy {
-  private readonly client: Redis | DisabledRedisClient;
-
+export class RedisService extends Redis implements OnModuleDestroy {
   constructor() {
-    this.client = env.CACHE_URL
-      ? new Redis(env.CACHE_URL)
-      : new DisabledRedisClient();
-  }
-
-  ping(): Promise<string> {
-    return this.client.ping();
+    super(env.CACHE_URL);
   }
 
   onModuleDestroy() {
-    return this.client.disconnect();
+    return this.disconnect();
   }
 }
