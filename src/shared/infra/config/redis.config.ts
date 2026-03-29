@@ -10,7 +10,7 @@ export const RedisProvider: Provider<Redis> = {
   useFactory: (): Redis => {
     const url = env.CACHE_URL;
 
-    if (!env.ENABLE_CACHE || !url) {
+    if (!url) {
       return new DisabledRedisClient() as unknown as Redis;
     }
 
