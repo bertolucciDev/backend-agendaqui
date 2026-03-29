@@ -19,6 +19,7 @@ const databaseSchema = {
 };
 
 const redisSchema = {
+  ENABLE_CACHE: z.coerce.boolean().optional(),
   CACHE_HOST: z.string().optional(),
   CACHE_PORT: z.coerce.number().optional(),
   CACHE_DB: z.coerce.number().default(0),
@@ -27,14 +28,15 @@ const redisSchema = {
 };
 
 const emailSchema = {
-  EMAIL_HOST: z.string().default('smtp.example.com'),
-  EMAIL_PORT: z.coerce.number().default(587),
+  ENABLE_EMAIL: z.coerce.boolean().optional(),
+  EMAIL_HOST: z.string().optional(),
+  EMAIL_PORT: z.coerce.number().optional(),
   EMAIL_USER: z.string().optional(),
   EMAIL_PASSWORD: z.string().optional(),
-  EMAIL_FAKE: z.coerce.boolean().default(true),
+  EMAIL_FAKE: z.coerce.boolean().optional(),
 };
 
-export const envSchema = z.object({
+const baseSchema = z.object({
   ...appSchema,
   ...databaseSchema,
   ...authSchema,
@@ -42,10 +44,61 @@ export const envSchema = z.object({
   ...emailSchema,
 });
 
-export const envServerlessSchema = z.object({
-  ...appSchema,
-  ...databaseSchema,
-  ...authSchema,
-  ...redisSchema,
-  ...emailSchema,
-});
+const withConditionalFeatures = (
+  schema: typeof baseSchema,
+  isServerless: boolean,
+) =>
+  schema
+    .transform((data) => {
+      const cacheDefault = !isServerless && data.APP_ENV === 'prod';
+      const emailDefault = true;
+      const emailFakeDefault = isServerless || data.APP_ENV !== 'prod';
+
+      return {
+        ...data,
+        ENABLE_CACHE: data.ENABLE_CACHE ?? cacheDefault,
+        ENABLE_EMAIL: data.ENABLE_EMAIL ?? emailDefault,
+        EMAIL_FAKE: data.EMAIL_FAKE ?? emailFakeDefault,
+        EMAIL_PORT: data.EMAIL_PORT ?? 587,
+      };
+    })
+    .superRefine((data, ctx) => {
+      if (data.ENABLE_CACHE && !data.CACHE_URL) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            'CACHE_URL é obrigatório quando ENABLE_CACHE=true (ou em prod não-serverless).',
+          path: ['CACHE_URL'],
+        });
+      }
+
+      if (data.ENABLE_EMAIL && !data.EMAIL_FAKE) {
+        if (!data.EMAIL_HOST) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'EMAIL_HOST é obrigatório quando ENABLE_EMAIL=true e EMAIL_FAKE=false.',
+            path: ['EMAIL_HOST'],
+          });
+        }
+
+        if (!data.EMAIL_USER) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'EMAIL_USER é obrigatório quando ENABLE_EMAIL=true e EMAIL_FAKE=false.',
+            path: ['EMAIL_USER'],
+          });
+        }
+
+        if (!data.EMAIL_PASSWORD) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              'EMAIL_PASSWORD é obrigatório quando ENABLE_EMAIL=true e EMAIL_FAKE=false.',
+            path: ['EMAIL_PASSWORD'],
+          });
+        }
+      }
+    });
+
+export const envSchema = withConditionalFeatures(baseSchema, false);
+export const envServerlessSchema = withConditionalFeatures(baseSchema, true);

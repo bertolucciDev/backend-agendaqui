@@ -8,7 +8,7 @@ export class RedisService implements OnModuleDestroy {
   private readonly client: Redis | DisabledRedisClient;
 
   constructor() {
-    this.client = env.CACHE_URL
+    this.client = env.ENABLE_CACHE && env.CACHE_URL
       ? new Redis(env.CACHE_URL)
       : new DisabledRedisClient();
   }

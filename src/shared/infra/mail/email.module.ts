@@ -1,34 +1,37 @@
 import { Logger, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NodemailerEmailService } from './nodemailer/nodemailer.service';
 import { FakeEmailService } from './nodemailer/fake-email.service';
 import { AbstractEmailService } from '../../../core/services/email.service';
+import { env } from '../../../config/env';
 
 const logger = new Logger('EmailModule');
 
 @Module({
-  imports: [ConfigModule],
   providers: [
     {
       provide: AbstractEmailService,
-      useFactory: (configService: ConfigService) => {
-        const emailFake = configService.get<string>('EMAIL_FAKE') !== 'false';
-        const hasEmailCredentials =
-          !!configService.get<string>('EMAIL_USER') &&
-          !!configService.get<string>('EMAIL_PASSWORD');
+      useFactory: () => {
+        const emailEnabled = env.ENABLE_EMAIL;
+        const emailFake = env.EMAIL_FAKE;
+        const hasEmailCredentials = !!env.EMAIL_USER && !!env.EMAIL_PASSWORD;
 
-        if (emailFake || !hasEmailCredentials) {
-          if (!emailFake && !hasEmailCredentials) {
-            logger.warn(
-              'EMAIL_USER/EMAIL_PASSWORD are missing. Falling back to fake email service (degraded mode).',
-            );
-          }
+        if (!emailEnabled) {
+          logger.warn(
+            'ENABLE_EMAIL=false. Using fake email service (feature disabled).',
+          );
           return new FakeEmailService();
         }
 
-        return new NodemailerEmailService(configService);
+        if (emailFake || !hasEmailCredentials) {
+          if (!emailFake && !hasEmailCredentials)
+            logger.warn(
+              'EMAIL_USER/EMAIL_PASSWORD are missing. Falling back to fake email service (degraded mode).',
+            );
+          return new FakeEmailService();
+        }
+
+        return new NodemailerEmailService();
       },
-      inject: [ConfigService],
     },
   ],
   exports: [AbstractEmailService],

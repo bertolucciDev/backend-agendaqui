@@ -4,25 +4,25 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
 import { AbstractEmailService } from '../../../../core/services/email.service';
 import { SendEmailInput } from '../../../../core/services/email.service';
+import { env } from '../../../../config/env';
 
 @Injectable()
 export class NodemailerEmailService implements AbstractEmailService {
   private readonly logger = new Logger(NodemailerEmailService.name);
   private transporter: nodemailer.Transporter;
 
-  constructor(private readonly configService: ConfigService) {
+  constructor() {
     this.transporter = nodemailer.createTransport({
-      host: this.configService.get<string>('EMAIL_HOST'),
-      port: Number(this.configService.get<string>('EMAIL_PORT')),
+      host: env.EMAIL_HOST,
+      port: env.EMAIL_PORT,
       secure: true, // 587 - false | 465 true
       auth: {
-        user: this.configService.get<string>('EMAIL_USER'),
-        pass: this.configService.get<string>('EMAIL_PASSWORD'),
+        user: env.EMAIL_USER,
+        pass: env.EMAIL_PASSWORD,
       },
       tls: {
         rejectUnauthorized: false, // false - ignore self-signed certificates
@@ -38,7 +38,7 @@ export class NodemailerEmailService implements AbstractEmailService {
     }
 
     const options: nodemailer.SendMailOptions = {
-      from: this.configService.get<string>('EMAIL_USER'),
+      from: env.EMAIL_USER,
       to: to.join(', '),
       subject,
       html,
