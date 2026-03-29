@@ -15,8 +15,8 @@ exports.Sql = runtime.Sql;
 exports.Decimal = runtime.Decimal;
 exports.getExtensionContext = runtime.Extensions.getExtensionContext;
 exports.prismaVersion = {
-    client: "7.5.0",
-    engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+    client: "7.6.0",
+    engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 };
 exports.NullTypes = {
     DbNull: runtime.NullTypes.DbNull,
