@@ -172,7 +172,7 @@ export type BusinessGroupByOutputType = {
   _max: BusinessMaxAggregateOutputType | null
 }
 
-type GetBusinessGroupByPayload<T extends BusinessGroupByArgs> = Prisma.PrismaPromise<
+export type GetBusinessGroupByPayload<T extends BusinessGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<BusinessGroupByOutputType, T['by']> &
       {
