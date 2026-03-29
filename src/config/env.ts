@@ -1,10 +1,9 @@
+import { envSchema } from './env.validation';
 import { config } from 'dotenv';
-import { envSchema, envServerlessSchema } from './env.validation';
 
 config();
 
-const schema = process.env.VERCEL ? envServerlessSchema : envSchema;
-const parsedEnv = schema.safeParse(process.env);
+const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
   console.error('❌ Invalid environment variables', parsedEnv.error.format());
