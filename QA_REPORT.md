@@ -49,3 +49,5 @@ Este relatório detalha as inconformidades, riscos de segurança e falhas arquit
 ✅ **Endurecer `env.validation.ts`**: Removido default de `JWT_SECRET`, tornando-o obrigatório.
 ✅ **Corrigir `NodemailerEmailService`**: Removido o bypass de segurança `rejectUnauthorized: false`.
 ✅ **Ajustar `main.ts` (Fastify)**: Corrigida importação redundante de `env`.
+✅ **Diagnóstico de Produção**: Implementado logging diagnóstico em `src/config/env.ts` para identificar falhas de variáveis de ambiente na Vercel.
+✅ **Robustez de Tipagem**: Garantida a coerção de tipos para variáveis numéricas e booleanas no `env.validation.ts`.

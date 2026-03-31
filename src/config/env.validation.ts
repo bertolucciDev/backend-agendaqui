@@ -21,7 +21,7 @@ export const envSchema = z.object({
   CACHE_URL: z.string(),
 
   // JWT
-  JWT_SECRET: z.string(),
+  JWT_SECRET: z.string().min(1, 'JWT_SECRET must not be empty'),
   ACCESS_TOKEN_EXP: z.string().default('1h'),
   REFRESH_TOKEN_EXP: z.string().default('7d'),
 
