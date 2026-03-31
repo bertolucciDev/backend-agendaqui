@@ -24,9 +24,6 @@ export class NodemailerEmailService implements AbstractEmailService {
         user: this.configService.get<string>('EMAIL_USER'),
         pass: this.configService.get<string>('EMAIL_PASSWORD'),
       },
-      tls: {
-        rejectUnauthorized: false, // false - ignore self-signed certificates
-      },
     });
   }
 
