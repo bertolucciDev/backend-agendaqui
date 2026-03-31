@@ -8,7 +8,7 @@ import {
   ConsoleLogger,
   ValidationPipe,
 } from '@nestjs/common';
-import { env } from './config/env';
+import { env } from '../src/config/env';
 import { AppModule } from './modules/app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 // import { ResponseInterceptor } from '@/shared/interceptors/response.interceptor';
