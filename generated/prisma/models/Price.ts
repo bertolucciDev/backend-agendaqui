@@ -1367,6 +1367,11 @@ export type PriceFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Skip the first `n` Prices.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Prices.
+   */
   distinct?: Prisma.PriceScalarFieldEnum | Prisma.PriceScalarFieldEnum[]
 }
 
